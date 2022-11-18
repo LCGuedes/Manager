@@ -7,6 +7,8 @@ import Clients from "./screens/clients";
 import addClient from "./screens/addClient";
 import ClientDetails from "./screens/clientDetails";
 
+import AddDebt from "./screens/addDebt";
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Routes = () => {
@@ -20,6 +22,8 @@ const Routes = () => {
         <Stack.Screen name="addClient" component={addClient} />
         <Stack.Screen name="Clients" component={Clients} />
         <Stack.Screen name="ClientDetails" component={ClientDetails} />
+
+        <Stack.Screen name="AddDebt" component={AddDebt} />
       </Stack.Navigator>
     </NavigationContainer>
   );

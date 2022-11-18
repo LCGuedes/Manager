@@ -33,6 +33,9 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
           <SheetButton onPress={() => navigation.navigate("Clients")}>
             <P>histórico de despesas</P>
           </SheetButton>
+          <SheetButton onPress={() => navigation.navigate("AddDebt")}>
+            <P>Adicionar Débito</P>
+          </SheetButton>
         </BottomSheetView>
       </BottomSheet>
     </>

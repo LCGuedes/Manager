@@ -26,6 +26,7 @@ export type RootStackParamList = {
   Clients: undefined;
   addClient: undefined;
   ClientDetails: undefined;
+  AddDebt: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

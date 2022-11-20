@@ -1,13 +1,7 @@
 import * as yup from "yup";
 
 export const signInSchema = yup.object().shape({
-  email: yup
-    .string()
-    .label("Email")
-    .email("Email Inválido.")
-    .required("Digite seu Email")
-    .trim()
-    .strict(),
+  user: yup.string().label("Usuário").required("Digite seu nome de usuário"),
   password: yup
     .string()
     .label("Senha")
@@ -17,13 +11,7 @@ export const signInSchema = yup.object().shape({
 });
 
 export const signUpSchema = yup.object().shape({
-  email: yup
-    .string()
-    .label("Email")
-    .email("Email Inválido.")
-    .required("Digite seu Email")
-    .trim()
-    .strict(),
+  user: yup.string().label("Usuário").required("Digite seu nome de usuário"),
   password: yup
     .string()
     .label("Senha")

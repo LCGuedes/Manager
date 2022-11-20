@@ -1,13 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export interface signUpTypes {
-  email: string;
+  user: string;
   password: string;
   passwordConfirmation: string;
 }
 
 export interface signInTypes {
-  email: string;
+  user: string;
   password: string;
 }
 

@@ -1,18 +1,19 @@
 import { useState, useMemo } from "react";
 import * as _ from "./styles";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import Typography from "../../../components/typography";
 import { signUpTypes } from "../../../types";
 import { Formik } from "formik";
 import { signUpSchema } from "../schemas";
-import Wallet from "../../../../assets/icons/wallet-sharp-blue.svg";
+import { RootStackScreenProps } from "../../../types";
+import { registerUser } from "../../../models/db/handleDb";
 
-const SignUp = () => {
+const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const initialValues = useMemo(
     () => ({
-      email: "",
+      user: "",
       password: "",
       passwordConfirmation: "",
     }),
@@ -20,7 +21,10 @@ const SignUp = () => {
   );
 
   const handleSignUp = (values: signUpTypes) => {
+    const { user, password } = values;
+    registerUser(user, password);
     setLoading(true);
+    navigation.navigate("SignIn");
   };
 
   return (
@@ -40,24 +44,22 @@ const SignUp = () => {
           values,
         }) => (
           <_.Box>
-            <Wallet width={50} height={50} />
             <_.Title>Cadastro</_.Title>
 
             <_.Form>
               <Typography
-                label="Email:"
+                label="Usuário:"
                 fontColor="#01599a"
                 marginBottom="6px"
                 marginLeft="6px"
               />
-              {errors.email && touched.email && (
-                <_.InputError>{errors.email}</_.InputError>
+              {errors.user && touched.user && (
+                <_.InputError>{errors.user}</_.InputError>
               )}
               <_.Input
-                keyboardType="email-address"
-                value={values.email}
-                onBlur={handleBlur("email")}
-                onChangeText={handleChange("email")}
+                value={values.user}
+                onBlur={handleBlur("user")}
+                onChangeText={handleChange("user")}
               />
 
               <Typography

@@ -2,24 +2,28 @@ import { useState, useMemo } from "react";
 import * as _ from "./styles";
 import { ActivityIndicator } from "react-native";
 import Typography from "../../../components/typography";
-import { signInTypes } from "../../../types";
+import { RootStackScreenProps, signInTypes } from "../../../types";
 import { Formik } from "formik";
 import { signInSchema } from "../schemas";
-import Wallet from "../../../../assets/icons/wallet-sharp-blue.svg";
 
-const SignIn = () => {
+import { loginUser } from "../../../models/db/handleDb";
+
+const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const initialValues = useMemo(
     () => ({
-      email: "",
+      user: "",
       password: "",
     }),
     []
   );
 
   const handleSignIn = (values: signInTypes) => {
+    const { user, password } = values;
+    loginUser(user, password);
     setLoading(true);
+    navigation.navigate("Home");
   };
 
   return (
@@ -39,24 +43,22 @@ const SignIn = () => {
           values,
         }) => (
           <_.Box>
-            <Wallet width={50} height={50} />
             <_.Title>Entrar</_.Title>
 
             <_.Form>
               <Typography
-                label="Email:"
+                label="Usuário:"
                 fontColor="#01599a"
                 marginBottom="6px"
                 marginLeft="6px"
               />
-              {errors.email && touched.email && (
-                <_.InputError>{errors.email}</_.InputError>
+              {errors.user && touched.user && (
+                <_.InputError>{errors.user}</_.InputError>
               )}
               <_.Input
-                keyboardType="email-address"
-                value={values.email}
-                onBlur={handleBlur("email")}
-                onChangeText={handleChange("email")}
+                value={values.user}
+                onBlur={handleBlur("user")}
+                onChangeText={handleChange("user")}
               />
 
               <Typography

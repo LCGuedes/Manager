@@ -15,7 +15,7 @@ export const Box = styled.View`
 
 export const Title = styled.Text`
   font-size: 24px;
-  color: #01599a;
+  color: ${({ theme }) => theme.pallete.primary.main};
   margin-bottom: 36px;
   margin-top: 36px;
 `;
@@ -28,19 +28,10 @@ export const InputError = styled.Text`
   margin-bottom: 6px;
 `;
 
-export const Input = styled.TextInput`
-  width: 100%;
-  height: 48px;
-  border: 1px solid #01599a;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  padding-left: 12px;
-`;
-
 export const SignInButton = styled.TouchableOpacity`
-  border-radius: 20px;
+  border-radius: 12px;
   color: white;
-  background-color: #01599a;
+  background-color: ${({ theme }) => theme.pallete.primary.main};
   height: 48px;
   align-items: center;
   justify-content: center;

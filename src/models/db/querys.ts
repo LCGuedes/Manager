@@ -1,10 +1,8 @@
-export const createUsersTableQuery =
+export const createUsersTable =
   "CREATE TABLE IF NOT EXISTS user_table (user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(255), USER_password VARCHAR(255));";
 
 export const createClientsTable =
-  "CREATE TABLE IF NOT EXISTS" +
-  "Clients" +
-  "(id_client INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, touch TEXT, street TEXT, apartament TEXT, block TEXT, id_user INTEGER, CONSTRAINT fk_UserClients FOREIGN KEY (id_user) REFERENCES createUsersTable (id_user), id_product INTEGER, CONSTRAINT fk_HisClient FOREIGN KEY (id_product) REFERENCES createDebtHistoryTable (id_product));";
+  "CREATE TABLE IF NOT EXISTS clients_table (client_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), touch VARCHAR(255), street VARCHAR(255), apartament VARCHAR(255), block VARCHAR(255), user_id INTEGER, CONSTRAINT fk_UserClients FOREIGN KEY (user_id) REFERENCES createUsersTable (user_id), product_id INTEGER, CONSTRAINT fk_HisClient FOREIGN KEY (product_id) REFERENCES createDebtHistoryTable (id_product));";
 
 export const createDebtHistoryTable =
   "CREATE TABLE IF NOT EXISTS" +

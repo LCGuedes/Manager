@@ -1,23 +1,29 @@
+import { useState, useEffect } from "react";
 import Header from "../../components/header";
-import Card from "./components/card";
 import { Container, Box, ClientButton } from "./styles";
 import Typography from "../../components/typography";
 import { FlatList } from "react-native";
-import { useSelector } from "react-redux";
-import { rootState } from "../../redux/store";
+
 import { RootStackScreenProps } from "../../types";
 import { clientInfoTypes } from "../../types";
 
-interface Item {
-  item: clientInfoTypes;
-}
+import { DatabaseConection } from "../../models/db/config";
 
 const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
-  const clients = useSelector(
-    (state: rootState) => state.defaultReducer.clients
-  );
+  let [flatListItems, setFlatListItems] = useState([]);
 
-  const renderCard = ({ item }: Item) => {
+  useEffect(() => {
+    const db = DatabaseConection.getConection();
+    db.transaction((tx) => {
+      tx.executeSql("SELECT * FROM clients_table", [], (tx, results) => {
+        setFlatListItems(results.rows._array);
+      });
+    });
+  }, []);
+
+  console.log("flastt", flatListItems);
+
+  const renderCard = ({ item }: any) => {
     return (
       <ClientButton
         onPress={() => navigation.navigate("ClientDetails", { item })}
@@ -32,7 +38,7 @@ const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
       <Header label="Clientes" />
       <Box>
         <FlatList
-          data={clients}
+          data={flatListItems}
           renderItem={renderCard}
           showsVerticalScrollIndicator={false}
         />

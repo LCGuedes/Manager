@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import { signInSchema } from "../schemas";
 
 import { loginUser } from "../../../models/db/handleDb";
+import Input from "../../../components/Input";
 
 const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,7 +56,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
               {errors.user && touched.user && (
                 <_.InputError>{errors.user}</_.InputError>
               )}
-              <_.Input
+              <Input
                 value={values.user}
                 onBlur={handleBlur("user")}
                 onChangeText={handleChange("user")}
@@ -70,7 +71,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
               {errors.password && touched.password && (
                 <_.InputError>{errors.password}</_.InputError>
               )}
-              <_.Input
+              <Input
                 secureTextEntry
                 value={values.password}
                 onBlur={handleBlur("password")}
@@ -88,7 +89,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
                 )}
               </_.SignInButton>
 
-              <_.SignUpButton>
+              <_.SignUpButton onPress={() => navigation.navigate("SignUp")}>
                 <Typography
                   label="Ainda não possui uma conta ? Cadastre-se"
                   fontColor="#01599a"

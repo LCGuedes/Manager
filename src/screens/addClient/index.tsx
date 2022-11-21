@@ -1,11 +1,15 @@
+import { useEffect } from "react";
 import { Container, Form, FormBox, Input, AddressButton } from "./styles";
 import Header from "../../components/header";
 import Button from "../../components/button";
 import Typography from "../../components/typography";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addClient } from "../../redux/reducers/defaultReducer";
 import { clientInfoTypes } from "../../types";
+
+import {
+  createClientsTable,
+  addClientInTheTable,
+} from "../../models/db/handleDb";
 
 const initialClientInfo: clientInfoTypes = {
   name: "",
@@ -19,7 +23,9 @@ const AddClient = () => {
   const [clientInfo, setClientInfo] = useState(initialClientInfo);
   const [openAddress, setOpenAddress] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    createClientsTable();
+  }, []);
 
   const handleClientInfo = (e: any, name: string) => {
     const value = e.nativeEvent.text;
@@ -28,7 +34,13 @@ const AddClient = () => {
 
   const handleAddClient = () => {
     setOpenAddress(false);
-    dispatch(addClient(clientInfo));
+    addClientInTheTable(
+      clientInfo.name,
+      clientInfo.touch,
+      clientInfo.street,
+      clientInfo.apartament,
+      clientInfo.block
+    );
   };
 
   const handleAddress = () => {

@@ -6,10 +6,10 @@ const db = DatabaseConection.getConection();
 export const createUserTable = () => {
   db.transaction((tx) => {
     tx.executeSql(query.selectTable("user_table"), [], (tx, res) => {
-      console.log("item", res.rows.length);
+      console.log("user table item", res.rows.length);
       if (res.rows.length == 0) {
         tx.executeSql(query.dropTable("user_table"), []);
-        tx.executeSql(query.createUsersTableQuery, []);
+        tx.executeSql(query.createUsersTable, []);
       }
     });
   });
@@ -50,10 +50,54 @@ export const loginUser = (user: string, password: string) => {
   });
 };
 
+export const createClientsTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql(query.selectTable("clients_table"), [], (tx, res) => {
+      console.log("clients table", res.rows.length);
+      if (res.rows.length == 0) {
+        tx.executeSql(query.dropTable("clients_table"), []);
+        tx.executeSql(query.createClientsTable, []);
+      }
+    });
+  });
+};
+
+export const addClientInTheTable = (
+  name: string,
+  touch: string,
+  street: string,
+  apartament: string,
+  block: string
+) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "INSERT INTO clients_table (name, touch, street, apartament, block) VALUES(?,?,?,?,?)",
+      [name, touch, street, apartament, block],
+      (tx, res) => {
+        console.log("addClientInTable  results =>>", res.rowsAffected);
+        if (res.rowsAffected > 0) {
+          console.log("cliente registrado com sucesso !");
+        } else {
+          console.log("Erro ao tentar registrar cliente");
+        }
+      }
+    );
+  });
+};
+
+export const showClientsTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql("select * from clients_table", [], (tx, res) => {
+      /*       console.log("show clients_table ==>", res.rows._array);
+       */ return res.rows._array;
+    });
+  });
+};
+
 export const showTables = () => {
   db.transaction((tx) => {
     tx.executeSql("select * from user_table", [], (tx, res) => {
-      console.log("show table ==>", res.rows._array);
+      console.log("show user_table ==>", res.rows._array);
     });
   });
 };

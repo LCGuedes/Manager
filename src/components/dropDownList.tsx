@@ -61,7 +61,9 @@ function List({ list, setValue, setIsOpen }: listTypes) {
   );
 }
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  margin-bottom: 12px;
+`;
 
 export const InputBox = styled.View`
   flex-direction: row;

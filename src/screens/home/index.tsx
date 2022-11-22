@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import Header from "../../components/header";
 import { Button, SheetButton, P } from "./styles";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
@@ -6,15 +6,8 @@ import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import Dot from "../../../assets/icons/three-dots.svg";
 import { RootStackScreenProps } from "../../types";
 
-import { createUserTable, showTables } from "../../models/db/handleDb";
-
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  useEffect(() => {
-    createUserTable();
-    showTables();
-  }, []);
 
   const openModal = () => {
     bottomSheetRef.current?.expand();

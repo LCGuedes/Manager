@@ -30,7 +30,7 @@ export default function ClientDetails({ route }: any) {
         </NavigationButton>
       </NavigationBar>
       {openDescription ? <Description clientInfo={clientInfo} /> : null}
-      {openHistory ? <History /> : null}
+      {openHistory ? <History clientInfo={clientInfo} /> : null}
     </Container>
   );
 }

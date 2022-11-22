@@ -20,6 +20,7 @@ export interface clientInfoTypes {
 }
 
 export type RootStackParamList = {
+  SplashScreen: undefined;
   SignUp: undefined;
   SignIn: undefined;
   Home: undefined;

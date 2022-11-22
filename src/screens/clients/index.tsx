@@ -3,32 +3,36 @@ import Header from "../../components/header";
 import { Container, Box, ClientButton } from "./styles";
 import Typography from "../../components/typography";
 import { FlatList } from "react-native";
-
 import { RootStackScreenProps } from "../../types";
-import { clientInfoTypes } from "../../types";
-
 import { DatabaseConection } from "../../models/db/config";
 
 const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
-  let [flatListItems, setFlatListItems] = useState([]);
+  let [clientList, setClientList] = useState<string[]>([]);
 
   useEffect(() => {
     const db = DatabaseConection.getConection();
     db.transaction((tx) => {
       tx.executeSql("SELECT * FROM clients_table", [], (tx, results) => {
-        setFlatListItems(results.rows._array);
+        let temp: string[] = [];
+        for (let i = 0; i < results.rows.length; ++i)
+          temp.push(results.rows.item(i));
+        setClientList(temp);
       });
     });
   }, []);
 
-  console.log("flastt", flatListItems);
+  console.log("lista de cliente =>>>", clientList);
 
   const renderCard = ({ item }: any) => {
     return (
       <ClientButton
         onPress={() => navigation.navigate("ClientDetails", { item })}
       >
-        <Typography label={item.name} fontColor="#726a95" fontSize="16px" />
+        <Typography
+          label={item.client_name}
+          fontColor="#726a95"
+          fontSize="16px"
+        />
       </ClientButton>
     );
   };
@@ -38,7 +42,7 @@ const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
       <Header label="Clientes" />
       <Box>
         <FlatList
-          data={flatListItems}
+          data={clientList}
           renderItem={renderCard}
           showsVerticalScrollIndicator={false}
         />

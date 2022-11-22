@@ -1,15 +1,10 @@
-import { useEffect } from "react";
 import { Container, Form, FormBox, Input, AddressButton } from "./styles";
 import Header from "../../components/header";
 import Button from "../../components/button";
 import Typography from "../../components/typography";
 import { useState } from "react";
 import { clientInfoTypes } from "../../types";
-
-import {
-  createClientsTable,
-  addClientInTheTable,
-} from "../../models/db/handleDb";
+import { addClientInTheTable } from "../../models/db/handleDb";
 
 const initialClientInfo: clientInfoTypes = {
   name: "",
@@ -22,10 +17,6 @@ const initialClientInfo: clientInfoTypes = {
 const AddClient = () => {
   const [clientInfo, setClientInfo] = useState(initialClientInfo);
   const [openAddress, setOpenAddress] = useState<boolean>(false);
-
-  useEffect(() => {
-    createClientsTable();
-  }, []);
 
   const handleClientInfo = (e: any, name: string) => {
     const value = e.nativeEvent.text;

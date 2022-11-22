@@ -6,7 +6,6 @@ import { RootStackScreenProps, signInTypes } from "../../../types";
 import { Formik } from "formik";
 import { signInSchema } from "../schemas";
 
-import { loginUser } from "../../../models/db/handleDb";
 import Input from "../../../components/Input";
 
 const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
@@ -22,7 +21,6 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
 
   const handleSignIn = (values: signInTypes) => {
     const { user, password } = values;
-    loginUser(user, password);
     setLoading(true);
     navigation.navigate("Home");
   };

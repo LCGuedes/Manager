@@ -53,8 +53,11 @@ function List({ list, setValue, setIsOpen }: listTypes) {
   return (
     <ListBox>
       {list.map((item) => (
-        <ListItem key={item} onPress={() => handleList(item)}>
-          {item}
+        <ListItem
+          key={item.client_name}
+          onPress={() => handleList(item.client_name)}
+        >
+          {item.client_name}
         </ListItem>
       ))}
     </ListBox>

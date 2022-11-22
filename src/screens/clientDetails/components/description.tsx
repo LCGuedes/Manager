@@ -3,11 +3,11 @@ import { Text } from "react-native";
 export default function Description({ clientInfo }: any) {
   return (
     <>
-      <Text>{clientInfo.name}</Text>
-      <Text>{clientInfo.touch}</Text>
-      <Text>{clientInfo.street}</Text>
-      <Text>{clientInfo.apartament}</Text>
-      <Text>{clientInfo.block}</Text>
+      <Text>{clientInfo.client_name}</Text>
+      <Text>{clientInfo.client_touch}</Text>
+      <Text>{clientInfo.client_street}</Text>
+      <Text>{clientInfo.client_apartament}</Text>
+      <Text>{clientInfo.client_block}</Text>
     </>
   );
 }

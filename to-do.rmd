@@ -17,3 +17,15 @@
 - Criar a função de deletar, modificar algum débito de algum usuário; 
 
 ** components styled css``
+
+** db
+
+ - Cria a user table;
+    - Insere usuarios na user table(register);
+    - Seleciona um usuário na user table(login);
+
+- Cria a client table;
+    - Insere cliente na client table;
+
+------
+    adicionar um novo cliente (devemos adicionar o usuario junto como chave estrangeira)

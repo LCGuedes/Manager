@@ -13,6 +13,7 @@ declare module "styled-components" {
       common: {
         black: string;
         white: string;
+        errorColor: string;
       };
       primary: IPallete;
       secundary: IPallete;

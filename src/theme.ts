@@ -7,6 +7,7 @@ export const theme: DefaultTheme = {
     common: {
       black: "#222831",
       white: "#ffffff",
+      errorColor: "#ec1d25",
     },
     primary: {
       main: "#726a95",

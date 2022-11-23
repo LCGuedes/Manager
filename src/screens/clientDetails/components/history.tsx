@@ -1,10 +1,7 @@
 import styled from "styled-components/native";
 import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
-import { DatabaseConection } from "../../../models/db/config";
-
-//const query = `SELECT * FROM debt_table WHERE product_client=${clientInfo.client_name}`
-const name = "Lucas";
+import { DatabaseConection } from "../../../services/db/config";
 
 export default function History({ clientInfo }: any) {
   const [clientDebtList, setClientDebtList] = useState([]);
@@ -26,20 +23,31 @@ export default function History({ clientInfo }: any) {
     });
   }, []);
 
-  console.log("debt table =>>", clientDebtList);
-
   return (
-    <>
+    <Container>
       {clientDebtList.map((item) => (
-        <Container key={item.product_id}>
-          <Text>{item.product_name}</Text>
-          <Text>{item.product_value}</Text>
-        </Container>
+        <Box key={item.product_id}>
+          <P>{item.product_name}</P>
+          <P>{`R$ ${item.product_value}`}</P>
+        </Box>
       ))}
-    </>
+    </Container>
   );
 }
 
-export const Container = styled.View`
+const Container = styled.View`
+  padding: 12px;
+`;
+
+const Box = styled.View`
+  elevation: 2;
+  background-color: white;
+  margin-bottom: 8px;
+  padding: 12px;
   flex-direction: row;
+  justify-content: space-between;
+`;
+
+const P = styled.Text`
+  color: ${({ theme }) => theme.pallete.primary.main};
 `;

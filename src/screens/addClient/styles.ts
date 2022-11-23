@@ -10,6 +10,7 @@ export const Container = styled.View`
 export const Form = styled.View`
   width: 100%;
   align-items: center;
+  margin-bottom: 24px;
 `;
 
 export const FormBox = styled.View`
@@ -33,4 +34,23 @@ export const AddressButton = styled.TouchableOpacity`
   height: 36px;
   border-radius: 8px;
   margin-bottom: 12px;
+`;
+
+export const Error = styled.Text`
+  color: ${({ theme }) => theme.pallete.common.errorColor};
+`;
+
+export const ValidateMsgBox = styled.View`
+  width: 80%;
+  height: 60px;
+  //background-color: white;
+  border: 0.5px solid #4bb543;
+  border-radius: 12px;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ValidateText = styled.Text`
+  color: #4bb543;
 `;

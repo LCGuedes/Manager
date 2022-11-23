@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
 interface buttonType {
   onPress: () => any;
-  description: string;
+  description?: string;
+  disabled?: boolean;
 }
 
 export const RootButton = styled.TouchableOpacity`
@@ -19,9 +20,9 @@ const P = styled.Text`
   font-size: ${({ theme }) => theme.fontSize};
 `;
 
-const Button = ({ onPress, description }: buttonType) => {
+const Button = ({ onPress, description, disabled }: buttonType) => {
   return (
-    <RootButton onPress={onPress}>
+    <RootButton onPress={onPress} disabled={disabled}>
       <P>{description}</P>
     </RootButton>
   );

@@ -4,7 +4,7 @@ import { Container, Box, ClientButton } from "./styles";
 import Typography from "../../components/typography";
 import { FlatList } from "react-native";
 import { RootStackScreenProps } from "../../types";
-import { DatabaseConection } from "../../models/db/config";
+import { DatabaseConection } from "../../services/db/config";
 
 const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
   let [clientList, setClientList] = useState<string[]>([]);

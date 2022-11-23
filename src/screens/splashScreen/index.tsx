@@ -3,22 +3,22 @@ import Button from "../../components/button";
 import { RootStackScreenProps } from "../../types";
 import { useEffect } from "react";
 
-import {
+/* import {
   createUserTable,
   createClientsTable,
   createDebtTable,
-} from "../../models/db/handleDb";
-import { showTable, dropTable } from "../../models/db/utils";
+} from "../../services/db/handleDb"; */
+import { showTable, dropTable } from "../../services/db/utils";
 
 const SplashScreen = ({ navigation }: RootStackScreenProps<"SplashScreen">) => {
   useEffect(() => {
-    createUserTable();
+    /*  createUserTable();
     createClientsTable();
     createDebtTable();
 
     showTable("user_table");
     showTable("clients_table");
-    showTable("debt_table");
+    showTable("debt_table"); */
   }, []);
 
   return (

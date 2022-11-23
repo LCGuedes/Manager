@@ -3,8 +3,8 @@ import DropDownList from "../../components/dropDownList";
 import Header from "../../components/header";
 import Button from "../../components/button";
 import { useState, useEffect } from "react";
-import { DatabaseConection } from "../../models/db/config";
-import { addDebtInTheTable } from "../../models/db/handleDb";
+import { DatabaseConection } from "../../services/db/config";
+import { addDebtInTheTable } from "../../services/db/controllers/dbt";
 
 export default function AddDebt() {
   const [clientList, setClientList] = useState<string[]>([]);

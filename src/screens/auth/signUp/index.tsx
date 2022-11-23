@@ -6,7 +6,7 @@ import { signUpTypes } from "../../../types";
 import { Formik } from "formik";
 import { signUpSchema } from "../schemas";
 import { RootStackScreenProps } from "../../../types";
-import { registerUser } from "../../../models/db/handleDb";
+/* import { registerUser } from "../../../services/db/handleDb"; */
 
 const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
 
   const handleSignUp = (values: signUpTypes) => {
     const { user, password } = values;
-    registerUser(user, password);
+    /* registerUser(user, password); */
     setLoading(true);
     navigation.navigate("SignIn");
   };

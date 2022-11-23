@@ -29,3 +29,27 @@
 
 ------
     adicionar um novo cliente (devemos adicionar o usuario junto como chave estrangeira)
+
+----------------------
+    - re-organizar a arquitetura do banco de dados;
+
+    - Adicionar cliente
+      -  tirar o not null do contato; **
+      - validar o botao adicionar cliente (se estiver vazio, desabilitar, desabilitar baseado no erro retornado ? ou no input vazio); - (como o banco restringe só em caso de unique e not null, string vazia entra no banco pela primeira vez e fica) **
+      - Mostrar o erro retornado pelo controller na tela; **
+      - Fechar o teclado quando clicar no botao adicionar;
+
+    - Lista de clientes
+        - apagar cliente
+        - Abrir a tela do cliente já com a descrição aberta
+        - editar as informações pessoais dos clientes 
+        - apagar um produto adicionado para o cliente       
+        - editar as innformações de um produto;
+        - somar e mostrar o saldo total do cliente;
+
+    - Adicionar débito
+        - validar os campos (não enviar vazio);
+        - Refazer o tipo do valor do produto (inter);
+        - mostrar feedback de erro
+
+- bugs: lista de clientes não esta mostrando todos os clientes;

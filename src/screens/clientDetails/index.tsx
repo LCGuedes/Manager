@@ -1,7 +1,9 @@
 import {
   Container,
   HeaderCard,
+  PhotoMock,
   NavigationBar,
+  P,
   NavigationButton,
 } from "./styles";
 import { useState } from "react";
@@ -11,7 +13,7 @@ import Description from "./components/description";
 import History from "./components/history";
 
 export default function ClientDetails({ route }: any) {
-  const { name } = route.params.item;
+  const { client_name } = route.params.item;
   const clientInfo = route.params.item;
   const [openDescription, setOpenDescription] = useState(false);
   const [openHistory, setOpenHistory] = useState(false);
@@ -19,14 +21,23 @@ export default function ClientDetails({ route }: any) {
   return (
     <Container>
       <HeaderCard>
-        <Typography label={name} />
+        <PhotoMock />
+        <Typography label={client_name} fontSize="18px" />
       </HeaderCard>
       <NavigationBar>
-        <NavigationButton onPress={() => setOpenDescription(!openDescription)}>
-          <Typography label="descrição" fontColor="red" />
+        <NavigationButton
+          onPress={() => (
+            setOpenDescription(!openDescription), setOpenHistory(false)
+          )}
+        >
+          <P>Descrição</P>
         </NavigationButton>
-        <NavigationButton onPress={() => setOpenHistory(!openHistory)}>
-          <Typography label="histórico de compras" fontColor="red" />
+        <NavigationButton
+          onPress={() => (
+            setOpenHistory(!openHistory), setOpenDescription(false)
+          )}
+        >
+          <P>Histórico de compras</P>
         </NavigationButton>
       </NavigationBar>
       {openDescription ? <Description clientInfo={clientInfo} /> : null}

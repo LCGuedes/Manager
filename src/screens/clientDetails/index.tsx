@@ -1,11 +1,4 @@
-import {
-  Container,
-  HeaderCard,
-  PhotoMock,
-  NavigationBar,
-  P,
-  NavigationButton,
-} from "./styles";
+import { Container, HeaderCard, PhotoMock, NavigationBar, P, NavigationButton } from "./styles";
 import { useState } from "react";
 import Typography from "../../components/typography";
 
@@ -15,7 +8,7 @@ import History from "./components/history";
 export default function ClientDetails({ route }: any) {
   const { client_name } = route.params.item;
   const clientInfo = route.params.item;
-  const [openDescription, setOpenDescription] = useState(false);
+  const [openDescription, setOpenDescription] = useState(true);
   const [openHistory, setOpenHistory] = useState(false);
 
   return (
@@ -26,17 +19,11 @@ export default function ClientDetails({ route }: any) {
       </HeaderCard>
       <NavigationBar>
         <NavigationButton
-          onPress={() => (
-            setOpenDescription(!openDescription), setOpenHistory(false)
-          )}
+          onPress={() => (setOpenDescription(!openDescription), setOpenHistory(false))}
         >
           <P>Descrição</P>
         </NavigationButton>
-        <NavigationButton
-          onPress={() => (
-            setOpenHistory(!openHistory), setOpenDescription(false)
-          )}
-        >
+        <NavigationButton onPress={() => (setOpenHistory(!openHistory), setOpenDescription(false))}>
           <P>Histórico de compras</P>
         </NavigationButton>
       </NavigationBar>

@@ -1,6 +1,10 @@
+import { useState } from "react";
+import { Modal } from "react-native";
 import styled from "styled-components/native";
+import DeleteModal from "./deleteModal";
 
 export default function Description({ clientInfo }: any) {
+  const [openDeleteModal, setDeleteModal] = useState<boolean>(false);
   return (
     <Container>
       <Box>
@@ -24,6 +28,23 @@ export default function Description({ clientInfo }: any) {
         <P>Casa:</P>
         <D>{clientInfo.client_block}</D>
       </Box>
+
+      <ButtonsBox>
+        <OptionsButton>
+          <B>Editar informações</B>
+        </OptionsButton>
+        <Modal
+          animationType="fade"
+          transparent
+          visible={openDeleteModal}
+          onRequestClose={() => setDeleteModal(false)}
+        >
+          <DeleteModal openDeleteModal={setDeleteModal} />
+        </Modal>
+        <OptionsButton onPress={() => setDeleteModal(true)}>
+          <B>Deletar cliente</B>
+        </OptionsButton>
+      </ButtonsBox>
     </Container>
   );
 }
@@ -43,4 +64,23 @@ const P = styled.Text`
 
 const D = styled.Text`
   margin-left: 4px;
+`;
+
+const ButtonsBox = styled.View`
+  flex-direction: row;
+`;
+
+const OptionsButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  elevation: 4;
+  background-color: ${(props) => props.theme.pallete.primary.main};
+  width: 150px;
+  height: 36px;
+  border-radius: 12px;
+  margin-right: 8px;
+`;
+
+const B = styled.Text`
+  color: white;
 `;

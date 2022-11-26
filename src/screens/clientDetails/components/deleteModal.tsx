@@ -1,26 +1,74 @@
 import styled from "styled-components/native";
 import { TouchableNativeFeedback } from "react-native";
+import { useState } from "react";
+import { deleteClient } from "../../../services/db/controllers/clients";
 
-const DeleteModal = ({ openDeleteModal }: any) => {
+const errorStatus = {
+  status: false,
+  payload: "",
+};
+
+const DeleteModal = ({ openDeleteModal, clientName }: any) => {
+  const [inputClientName, setInputClientName] = useState("");
+  const [handleError, setHandleError] = useState(errorStatus);
+  const [successSection, setSuccessSection] = useState(false);
+
+  const handleDeleteClient = () => {
+    if (inputClientName === "") {
+      setHandleError({
+        ...handleError,
+        status: true,
+        payload: "Digite o nome do cliente",
+      });
+    } else if (inputClientName !== clientName) {
+      setHandleError({
+        ...handleError,
+        status: true,
+        payload: "Digite corretamente o nome do cliente",
+      });
+    } else {
+      deleteClient(inputClientName);
+      setSuccessSection(true);
+    }
+  };
+
   return (
     <TouchableNativeFeedback onPress={() => openDeleteModal(false)}>
-      <Container>
-        <Box>
-          <TextBox>
-            <P>Deletar cliente</P>
-            <D>Tem certeza que quer deletar o cliente ... ?</D>
-          </TextBox>
-          <Input placeholder="Digite o nome do cliente" />
-          <ButtonBox>
-            <CancelButton>
-              <BtnP>Cancelar</BtnP>
-            </CancelButton>
-            <Button>
-              <BtnP>Deletar</BtnP>
-            </Button>
-          </ButtonBox>
-        </Box>
-      </Container>
+      {successSection ? (
+        <Container>
+          <ValidateModalBox>
+            <ValidateMsgBox>
+              <ValidateText>Cliente deletado com sucesso !</ValidateText>
+            </ValidateMsgBox>
+          </ValidateModalBox>
+        </Container>
+      ) : (
+        <Container>
+          <Box>
+            <TextBox>
+              <P>Deletar cliente</P>
+              <D>
+                Tem certeza que quer deletar o cliente {<A>{clientName}</A>} ?
+              </D>
+            </TextBox>
+            <Input
+              placeholder="Digite o nome do cliente"
+              onChange={(e) => setInputClientName(e.nativeEvent.text)}
+            />
+            {handleError.status ? (
+              <ErrorMsg>{handleError.payload}</ErrorMsg>
+            ) : null}
+            <ButtonBox>
+              <CancelButton>
+                <BtnP onPress={() => openDeleteModal(false)}>Cancelar</BtnP>
+              </CancelButton>
+              <Button>
+                <BtnP onPress={handleDeleteClient}>Deletar</BtnP>
+              </Button>
+            </ButtonBox>
+          </Box>
+        </Container>
+      )}
     </TouchableNativeFeedback>
   );
 };
@@ -36,7 +84,7 @@ const Container = styled.View`
 
 const Box = styled.View`
   width: 90%;
-  height: 200px;
+  height: 240px;
   background-color: white;
   border-radius: 12px;
   padding: 24px;
@@ -82,4 +130,37 @@ const P = styled.Text`
 
 const D = styled.Text`
   color: rgba(0, 0, 0, 0.4);
+`;
+
+const A = styled.Text`
+  color: ${({ theme }) => theme.pallete.common.errorColor};
+`;
+
+const ErrorMsg = styled.Text`
+  color: ${({ theme }) => theme.pallete.common.errorColor};
+`;
+
+const ValidateMsgBox = styled.View`
+  width: 80%;
+  height: 60px;
+  //background-color: white;
+  border: 0.5px solid #4bb543;
+  border-radius: 12px;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ValidateModalBox = styled.View`
+  width: 90%;
+  height: 240px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ValidateText = styled.Text`
+  color: #4bb543;
 `;

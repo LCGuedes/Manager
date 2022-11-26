@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
-import { DatabaseConection } from "../../../services/db/config";
+import { DatabaseConection } from "../../services/db/config";
 
 export default function History({ clientInfo }: any) {
   const [clientDebtList, setClientDebtList] = useState([]);

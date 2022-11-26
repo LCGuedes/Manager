@@ -1,4 +1,8 @@
-import { insertIntoClientsTable } from "../models/clients";
+import {
+  insertIntoClientsTable,
+  deleteFromClientsTable,
+  updateClientFromTable,
+} from "../models/clients";
 
 export const addClientInTheTable = (
   name: string,
@@ -8,7 +12,15 @@ export const addClientInTheTable = (
   block: string,
   handleErrorMsg: any
 ) => {
-  insertIntoClientsTable(name, touch, street, apartament, block, queryFeedBack, dbFeedBack);
+  insertIntoClientsTable(
+    name,
+    touch,
+    street,
+    apartament,
+    block,
+    queryFeedBack,
+    dbFeedBack
+  );
 
   function queryFeedBack(queryResults: any) {
     if (queryResults.rowsAffected > 0) {
@@ -21,4 +33,13 @@ export const addClientInTheTable = (
   function dbFeedBack(dbError: any) {
     console.log("db error", dbError);
   }
+};
+
+export const updateClient = (clientInfo: any) => {
+  console.log("dados no controller", clientInfo);
+  updateClientFromTable(clientInfo);
+};
+
+export const deleteClient = (clientName: string) => {
+  deleteFromClientsTable(clientName);
 };

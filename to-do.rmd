@@ -31,18 +31,16 @@
     adicionar um novo cliente (devemos adicionar o usuario junto como chave estrangeira)
 
 ----------------------
-    - re-organizar a arquitetura do banco de dados;
-
-    - Adicionar cliente
-      -  tirar o not null do contato; **
-      - validar o botao adicionar cliente (se estiver vazio, desabilitar, desabilitar baseado no erro retornado ? ou no input vazio); - (como o banco restringe só em caso de unique e not null, string vazia entra no banco pela primeira vez e fica) **
-      - Mostrar o erro retornado pelo controller na tela; **
-      - Fechar o teclado quando clicar no botao adicionar;
 
     - Lista de clientes
-        - apagar cliente
-        - Abrir a tela do cliente já com a descrição aberta
-        - editar as informações pessoais dos clientes 
+        - apagar cliente 
+            - criar apagar cliente modal **
+            - validar o input client -> apagar as mensagens de erro quando validar
+            - mudar o conteudo do modal para: cliente deletado com seccesso, botao fechar que volta para a tela de clientes
+            
+
+        - editar as informações pessoais dos clientes **
+        - fazer a feature de ativar e desativar o input
         - apagar um produto adicionado para o cliente       
         - editar as innformações de um produto;
         - somar e mostrar o saldo total do cliente;
@@ -53,3 +51,12 @@
         - mostrar feedback de erro
 
 - bugs: lista de clientes não esta mostrando todos os clientes;
+- quando um cliente é deletado e voltamos para a tela de clientes, o cliente deletado ainda esta lá, logo é possível "deletar-lo' novamente
+- deletar o cliente novamente;
+
+
+-----------
+
+criar os inputs, eles tem que vim com o valor default do description;
+criar a caneta que abilita os inputs;
+pegar o valor  do input e da update nele no db;

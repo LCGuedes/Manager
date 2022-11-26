@@ -5,6 +5,7 @@ interface inputTypes {
   onBlur?: any;
   onChangeText?: any;
   secureTextEntry?: any;
+  editable?: any;
 }
 
 const RootInput = styled.TextInput`
@@ -21,6 +22,7 @@ const Input = ({
   onBlur,
   onChangeText,
   secureTextEntry,
+  editable,
 }: inputTypes) => {
   return (
     <RootInput
@@ -28,6 +30,7 @@ const Input = ({
       value={value}
       onBlur={onBlur}
       onChangeText={onChangeText}
+      editable={editable}
     />
   );
 };

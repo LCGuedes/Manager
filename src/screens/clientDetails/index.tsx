@@ -2,8 +2,8 @@ import { Container, HeaderCard, PhotoMock, NavigationBar, P, NavigationButton } 
 import { useState } from "react";
 import Typography from "../../components/typography";
 
-import Description from "./components/description";
-import History from "./components/history";
+import Description from "./description";
+import History from "./history";
 
 export default function ClientDetails({ route }: any) {
   const { client_name } = route.params.item;

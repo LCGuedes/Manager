@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Modal } from "react-native";
 import styled from "styled-components/native";
-import DeleteModal from "./deleteModal";
+import DeleteModal from "./components/deleteModal";
+import EditModal from "./components/editModal";
 
 export default function Description({ clientInfo }: any) {
   const [openDeleteModal, setDeleteModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   return (
     <Container>
       <Box>
@@ -30,16 +32,30 @@ export default function Description({ clientInfo }: any) {
       </Box>
 
       <ButtonsBox>
-        <OptionsButton>
+        <OptionsButton onPress={() => setOpenEditModal(true)}>
           <B>Editar informações</B>
         </OptionsButton>
+        <Modal
+          animationType="fade"
+          transparent
+          visible={openEditModal}
+          onRequestClose={() => setOpenEditModal(false)}
+        >
+          <EditModal
+            setOpenEditModal={setOpenEditModal}
+            clientInfo={clientInfo}
+          />
+        </Modal>
         <Modal
           animationType="fade"
           transparent
           visible={openDeleteModal}
           onRequestClose={() => setDeleteModal(false)}
         >
-          <DeleteModal openDeleteModal={setDeleteModal} />
+          <DeleteModal
+            openDeleteModal={setDeleteModal}
+            clientName={clientInfo.client_name}
+          />
         </Modal>
         <OptionsButton onPress={() => setDeleteModal(true)}>
           <B>Deletar cliente</B>

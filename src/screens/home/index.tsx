@@ -7,14 +7,11 @@ import Dot from "../../../assets/icons/three-dots.svg";
 import { RootStackScreenProps } from "../../types";
 import { createClientsTable } from "../../services/db/models/clients";
 import { createDebtTable } from "../../services/db/models/dbt";
-import { dropTable } from "../../services/db/utils";
 
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
-    /* dropTable("clients_table");
-    dropTable("debt_table"); */
     createClientsTable();
     createDebtTable();
   }, []);

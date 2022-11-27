@@ -2,8 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./types";
 
-import SplashScreen from "./screens/splashScreen";
-
 import SignUp from "./screens/auth/signUp";
 import SignIn from "./screens/auth/signIn";
 
@@ -23,8 +21,6 @@ const Routes = () => {
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="Home" component={Home} />

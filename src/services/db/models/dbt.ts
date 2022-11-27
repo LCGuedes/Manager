@@ -17,3 +17,33 @@ export const createDebtTable = () => {
     );
   });
 };
+
+export const updateProductInTable = (productInfo: any) => {
+  const params = [
+    productInfo.product_name,
+    productInfo.product_value,
+    productInfo.product_id,
+  ];
+  db.transaction((tx) =>
+    tx.executeSql(
+      "UPDATE debt_Table SET product_name=?, product_value=? WHERE product_id=?",
+      params,
+      (tx, results) => {
+        console.log("results", results.rowsAffected);
+      }
+    )
+  );
+};
+
+export const DeleteProductInTable = (productInfo: any) => {
+  const params = [productInfo.product_id];
+  db.transaction((tx) => {
+    tx.executeSql(
+      "DELETE FROM debt_table WHERE product_id=?",
+      params,
+      (tx, results) => {
+        console.log("res", results);
+      }
+    );
+  });
+};

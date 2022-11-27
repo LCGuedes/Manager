@@ -1,4 +1,5 @@
 import { DatabaseConection } from "../config";
+import { updateProductInTable, DeleteProductInTable } from "../models/dbt";
 
 const db = DatabaseConection.getConection();
 
@@ -24,4 +25,12 @@ export const addDebtInTheTable = (
       }
     );
   });
+};
+
+export const updateProduct = (productInfo: any) => {
+  updateProductInTable(productInfo);
+};
+
+export const DeleteProduct = (productInfo: any) => {
+  DeleteProductInTable(productInfo);
 };

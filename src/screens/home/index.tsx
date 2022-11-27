@@ -13,7 +13,7 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
-    /*  dropTable("clients_table");
+    /* dropTable("clients_table");
     dropTable("debt_table"); */
     createClientsTable();
     createDebtTable();

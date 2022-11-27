@@ -1,4 +1,5 @@
 import {
+  selectClientsFromTable,
   insertIntoClientsTable,
   deleteFromClientsTable,
   updateClientFromTable,
@@ -32,6 +33,17 @@ export const addClientInTheTable = (
 
   function dbFeedBack(dbError: any) {
     console.log("db error", dbError);
+  }
+};
+
+export const selectClients = (setClientList: any) => {
+  selectClientsFromTable(getResults);
+
+  function getResults(results: any) {
+    let clientList = [];
+    for (let i = 0; i < results.rows.length; ++i)
+      clientList.push(results.rows.item(i));
+    setClientList(clientList);
   }
 };
 

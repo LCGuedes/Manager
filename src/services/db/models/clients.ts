@@ -18,6 +18,15 @@ export const createClientsTable = () => {
   });
 };
 
+export const selectClientsFromTable = (getResults: any) => {
+  const db = DatabaseConection.getConection();
+  db.transaction((tx) => {
+    tx.executeSql("SELECT * FROM clients_table", [], (tx, results) =>
+      getResults(results)
+    );
+  });
+};
+
 export const insertIntoClientsTable = (
   name: string,
   touch: string,

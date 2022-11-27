@@ -11,6 +11,15 @@ export interface signInTypes {
   password: string;
 }
 
+export interface clientType {
+  client_apartament: string;
+  client_block: string;
+  client_id: number;
+  client_name: string;
+  client_street: string;
+  client_touch: string;
+}
+
 export interface clientInfoTypes {
   name: string;
   touch: string;
@@ -26,7 +35,7 @@ export type RootStackParamList = {
   Home: undefined;
   Clients: undefined;
   addClient: undefined;
-  ClientDetails: undefined;
+  ClientDetails: { item: clientType };
   AddDebt: undefined;
 };
 

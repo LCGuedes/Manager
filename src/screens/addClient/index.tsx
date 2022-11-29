@@ -12,22 +12,21 @@ import Header from "../../components/header";
 import Button from "../../components/button";
 import Typography from "../../components/typography";
 import { useState } from "react";
-import { clientInfoTypes } from "../../types";
-import { addClientInTheTable } from "../../services/db/controllers/clients";
-import { Keyboard } from "react-native";
+import { newClientType, errorType } from "../../types";
+import { newClientController } from "../../services/db/controllers/clients";
+import {
+  Keyboard,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from "react-native";
 
-const initialClientInfo = {
-  name: "",
-  touch: "",
-  street: "",
-  apartament: "",
-  block: "",
+const initialClient = {
+  clientName: "",
+  clientTouch: "",
+  clientStreet: "",
+  clientApartament: "",
+  clientBlock: "",
 };
-
-interface errorStatusType {
-  status: boolean;
-  payload: string;
-}
 
 const initialErrorStatus = {
   status: false,
@@ -35,48 +34,38 @@ const initialErrorStatus = {
 };
 
 const AddClient = () => {
-  const [clientInfo, setClientInfo] = useState<clientInfoTypes>(initialClientInfo);
-  const [openAddress, setOpenAddress] = useState<boolean>(false);
-  const [errorStatus, setErrorStatus] = useState<errorStatusType>(initialErrorStatus);
-  const [validateMsg, setValidateMsg] = useState<string>("");
+  const [newClient, setNewClient] = useState<newClientType>(initialClient);
+  const [errorStatus, setErrorStatus] = useState<errorType>(initialErrorStatus);
+  const [addressSection, setAddressSection] = useState<boolean>(false);
+  const [validationMsg, setValidationMsg] = useState<string>("");
 
-  const handleClientInfo = (e: any, name: string) => {
+  const handleNewClient = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+    name: string
+  ) => {
     const value = e.nativeEvent.text;
 
-    if (name === "name" && value.length > 0) {
+    if (name === "clientName" && value.length > 0) {
       setErrorStatus({ ...errorStatus, status: false, payload: "" });
     }
 
-    setClientInfo({ ...clientInfo, [name]: value });
+    setNewClient({ ...newClient, [name]: value });
   };
 
-  const handleAddClient = () => {
-    setOpenAddress(false);
-
-    if (clientInfo.name === "") {
+  const addNewClient = () => {
+    if (newClient.clientName === "") {
       setErrorStatus({
         ...errorStatus,
         status: true,
         payload: "Informe o nome do cliente",
       });
     } else {
-      const handleErrorMsg = (errorMsg: any) => {
-        setValidateMsg(errorMsg);
+      const handleErrorMsg = (errorMsg: string) => {
+        setValidationMsg(errorMsg);
       };
-      addClientInTheTable(
-        clientInfo.name,
-        clientInfo.touch,
-        clientInfo.street,
-        clientInfo.apartament,
-        clientInfo.block,
-        handleErrorMsg
-      );
+      newClientController(newClient, handleErrorMsg);
     }
     Keyboard.dismiss();
-  };
-
-  const handleAddress = () => {
-    setOpenAddress(!openAddress);
   };
 
   return (
@@ -87,50 +76,50 @@ const AddClient = () => {
           <FormBox>
             <Input
               placeholder="Nome:"
-              value={clientInfo.name}
-              onChange={(e) => handleClientInfo(e, "name")}
+              value={newClient.clientName}
+              onChange={(e) => handleNewClient(e, "clientName")}
             />
             {errorStatus.status ? <Error>{errorStatus.payload}</Error> : null}
             <Input
               placeholder="Contato:"
-              value={clientInfo.touch}
-              onChange={(e) => handleClientInfo(e, "touch")}
+              value={newClient.clientTouch}
+              onChange={(e) => handleNewClient(e, "clientTouch")}
             />
 
-            <AddressButton onPress={handleAddress}>
+            <AddressButton onPress={() => setAddressSection(!addressSection)}>
               <Typography label="Adicionar endereço" fontSize="14px" />
             </AddressButton>
 
-            {openAddress ? (
+            {addressSection ? (
               <>
                 <Input
                   placeholder="Rua:"
-                  value={clientInfo.street}
-                  onChange={(e) => handleClientInfo(e, "street")}
+                  value={newClient.clientStreet}
+                  onChange={(e) => handleNewClient(e, "clientStreet")}
                 />
                 <Input
                   placeholder="Casa:"
-                  value={clientInfo.apartament}
-                  onChange={(e) => handleClientInfo(e, "apartament")}
+                  value={newClient.clientApartament}
+                  onChange={(e) => handleNewClient(e, "clientApartament")}
                 />
                 <Input
                   placeholder="Quadra:"
-                  value={clientInfo.block}
-                  onChange={(e) => handleClientInfo(e, "block")}
+                  value={newClient.clientBlock}
+                  onChange={(e) => handleNewClient(e, "clientBlock")}
                 />
               </>
             ) : null}
           </FormBox>
 
           <Button
-            onPress={handleAddClient}
+            onPress={addNewClient}
             description="Adicionar cliente"
             disabled={errorStatus.status}
           />
         </Form>
-        {validateMsg ? (
+        {validationMsg ? (
           <ValidateMsgBox>
-            <ValidateText>{validateMsg}</ValidateText>
+            <ValidateText>{validationMsg}</ValidateText>
           </ValidateMsgBox>
         ) : null}
       </Container>

@@ -1,3 +1,4 @@
+import { clientType, newClientType } from "../../../types";
 import {
   selectClientsFromTable,
   insertIntoClientsTable,
@@ -5,38 +6,22 @@ import {
   updateClientFromTable,
 } from "../models/clients";
 
-export const addClientInTheTable = (
-  name: string,
-  touch: string,
-  street: string,
-  apartament: string,
-  block: string,
+export const newClientController = (
+  newClient: newClientType,
   handleErrorMsg: any
 ) => {
-  insertIntoClientsTable(
-    name,
-    touch,
-    street,
-    apartament,
-    block,
-    queryFeedBack,
-    dbFeedBack
-  );
+  insertIntoClientsTable(newClient, getResults);
 
-  function queryFeedBack(queryResults: any) {
+  function getResults(queryResults: any) {
     if (queryResults.rowsAffected > 0) {
       handleErrorMsg("Cliente cadastrado com sucesso !");
     } else {
       handleErrorMsg("Não foi possível cadastrar o cliente");
     }
   }
-
-  function dbFeedBack(dbError: any) {
-    console.log("db error", dbError);
-  }
 };
 
-export const selectClients = (setClientList: any) => {
+export const selectClientsController = (setClientList: any) => {
   selectClientsFromTable(getResults);
 
   function getResults(results: any) {
@@ -47,9 +32,9 @@ export const selectClients = (setClientList: any) => {
   }
 };
 
-export const updateClient = (clientInfo: any) => {
-  console.log("dados no controller", clientInfo);
-  updateClientFromTable(clientInfo);
+export const updateClientController = (editedClient: clientType) => {
+  updateClientFromTable(editedClient, getResults);
+  function getResults(results: any) {}
 };
 
 export const deleteClient = (clientName: string) => {

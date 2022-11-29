@@ -1,32 +1,44 @@
 import styled from "styled-components/native";
-import { TouchableNativeFeedback } from "react-native";
+import {
+  TouchableNativeFeedback,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
+import { productType, errorType } from "../../../types";
 import {
-  updateProduct,
-  DeleteProduct,
+  updateProductController,
+  DeleteProductController,
 } from "../../../services/db/controllers/dbt";
+
+interface editableProductModalType {
+  editableProduct: productType;
+  setOpenModal: any;
+}
 
 const successStatus = {
   status: false,
   payload: "",
 };
 
-// coletar os produtos com os ids em outros arrays e usar isso como
+const EditableProductModal = ({
+  setOpenModal,
+  editableProduct,
+}: editableProductModalType) => {
+  const [editedProduct, setEditedProduct] = useState<productType>(editableProduct);
+  const [successSection, setSuccessSection] = useState<errorType>(successStatus);
 
-const HistoryModal = ({ openModal, clientInfo }: any) => {
-  const [productInfo, setProductInfo] = useState(clientInfo);
-  const [successSection, setSuccessSection] = useState(successStatus);
-
-  console.log("lista de clientes", productInfo);
-
-  const handleProductInfo = (e: any, name: string) => {
+  const handleEditedProduct = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+    name: string
+  ) => {
     const value = e.nativeEvent.text;
-    setProductInfo({ ...productInfo, [name]: value });
+    setEditedProduct({ ...editedProduct, [name]: value });
   };
 
-  const updateProductInfo = () => {
-    updateProduct(productInfo);
+  const updateEditedProduct = () => {
+    updateProductController(editedProduct);
     setSuccessSection({
       ...successSection,
       status: true,
@@ -34,8 +46,8 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
     });
   };
 
-  const deleteProductInfo = () => {
-    DeleteProduct(productInfo);
+  const deleteEditableProduct = () => {
+    DeleteProductController(editedProduct);
     setSuccessSection({
       ...successSection,
       status: true,
@@ -44,7 +56,7 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
   };
 
   return (
-    <TouchableNativeFeedback onPress={() => openModal(false)}>
+    <TouchableNativeFeedback onPress={() => setOpenModal(false)}>
       {successSection.status ? (
         <Container>
           <ValidateModalBox>
@@ -61,8 +73,8 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Nome do produto"
-                    value={productInfo.product_name}
-                    onChange={(e) => handleProductInfo(e, "product_name")}
+                    value={editedProduct.product_name}
+                    onChange={(e) => handleEditedProduct(e, "product_name")}
                   />
                 </InputBox>
                 <EditButton>
@@ -74,8 +86,8 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Valor do produto"
-                    value={productInfo.product_value}
-                    onChange={(e) => handleProductInfo(e, "product_value")}
+                    value={editedProduct.product_value}
+                    onChange={(e) => handleEditedProduct(e, "product_value")}
                   />
                 </InputBox>
                 <EditButton>
@@ -83,10 +95,10 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
                 </EditButton>
               </FormBox>
             </Form>
-            <ConfirmButton onPress={updateProductInfo}>
+            <ConfirmButton onPress={updateEditedProduct}>
               <P>Atualizar produto</P>
             </ConfirmButton>
-            <DeleteButton onPress={deleteProductInfo}>
+            <DeleteButton onPress={deleteEditableProduct}>
               <P>Deletar produto</P>
             </DeleteButton>
           </Box>
@@ -96,7 +108,7 @@ const HistoryModal = ({ openModal, clientInfo }: any) => {
   );
 };
 
-export default HistoryModal;
+export default EditableProductModal;
 
 const Container = styled.View`
   flex: 1;

@@ -1,25 +1,35 @@
 import styled from "styled-components/native";
-import { TouchableNativeFeedback } from "react-native";
+import {
+  TouchableNativeFeedback,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
+import { updateClientController } from "../../../services/db/controllers/clients";
+import { clientType } from "../../../types";
 
-import { updateClient } from "../../../services/db/controllers/clients";
+interface editModalType {
+  client: clientType;
+  setOpenEditModal: any;
+}
 
-const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
-  const [editClientInfo, setEditClientInfo] = useState(clientInfo);
-  const [successSection, setSuccessSection] = useState(false);
+const EditModal = ({ client, setOpenEditModal }: editModalType) => {
+  const [editClient, setEditClient] = useState<clientType>(client);
+  const [successSection, setSuccessSection] = useState<boolean>(false);
 
-  const handleEditClientInfo = (e: any, name: string) => {
+  const handleEditClient = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+    name: string
+  ) => {
     const value = e.nativeEvent.text;
-    setEditClientInfo({ ...editClientInfo, [name]: value });
+    setEditClient({ ...editClient, [name]: value });
   };
 
-  const handleUpdateClient = () => {
-    updateClient(editClientInfo);
+  const updateClient = () => {
+    updateClientController(editClient);
     setSuccessSection(true);
   };
-
-  console.log("dados no modal", editClientInfo);
 
   return (
     <TouchableNativeFeedback onPress={() => setOpenEditModal(false)}>
@@ -39,8 +49,8 @@ const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Telefone de contato"
-                    value={editClientInfo.client_touch}
-                    onChange={(e) => handleEditClientInfo(e, "client_touch")}
+                    value={editClient.client_touch}
+                    onChange={(e) => handleEditClient(e, "client_touch")}
                   />
                 </InputBox>
                 <EditButton>
@@ -52,8 +62,8 @@ const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Rua"
-                    value={editClientInfo.client_street}
-                    onChange={(e) => handleEditClientInfo(e, "client_street")}
+                    value={editClient.client_street}
+                    onChange={(e) => handleEditClient(e, "client_street")}
                   />
                 </InputBox>
                 <EditButton>
@@ -65,10 +75,8 @@ const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Casa"
-                    value={editClientInfo.client_apartament}
-                    onChange={(e) =>
-                      handleEditClientInfo(e, "client_apartament")
-                    }
+                    value={editClient.client_apartament}
+                    onChange={(e) => handleEditClient(e, "client_apartament")}
                   />
                 </InputBox>
                 <EditButton>
@@ -80,8 +88,8 @@ const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
                 <InputBox>
                   <Input
                     placeholder="Quadra"
-                    value={editClientInfo.client_block}
-                    onChange={(e) => handleEditClientInfo(e, "client_block")}
+                    value={editClient.client_block}
+                    onChange={(e) => handleEditClient(e, "client_block")}
                   />
                 </InputBox>
                 <EditButton>
@@ -89,7 +97,7 @@ const EditModal = ({ setOpenEditModal, clientInfo }: any) => {
                 </EditButton>
               </FormBox>
             </Form>
-            <ConfirmButton onPress={handleUpdateClient}>
+            <ConfirmButton onPress={updateClient}>
               <P>Confirmar modificações</P>
             </ConfirmButton>
           </Box>

@@ -1,36 +1,35 @@
-import { DatabaseConection } from "../config";
-import { updateProductInTable, DeleteProductInTable } from "../models/dbt";
+import {
+  selectProductsFromTable,
+  insertProductInTable,
+  updateProductInTable,
+  DeleteProductInTable,
+} from "../models/dbt";
 
-const db = DatabaseConection.getConection();
+import { productType, newProductType } from "../../../types";
 
-export const addDebtInTheTable = (
-  product_name: string,
-  product_value: string,
-  product_client: string
-) => {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "INSERT INTO debt_table (product_name, product_value, product_client) VALUES (?,?,?)",
-      [product_name, product_value, product_client],
-      (tx, res) => {
-        console.log("addDebtInTable  results =>>", res.rowsAffected);
-        if (res.rowsAffected > 0) {
-          console.log("debito registrado com sucesso !");
-        } else {
-          console.log("Erro ao tentar registrar debito");
-        }
-      },
-      function (tx, err) {
-        console.log("adicionar debito error =>>", err);
-      }
-    );
-  });
+export const newProductController = (newProduct: newProductType, clientName: string) => {
+  insertProductInTable(newProduct, clientName, getResults);
+
+  function getResults(results: any) {}
 };
 
-export const updateProduct = (productInfo: any) => {
-  updateProductInTable(productInfo);
+export const selectProductsController = (clientName: string, setProductList: any) => {
+  selectProductsFromTable(clientName, getResults);
+
+  function getResults(results: any) {
+    let productList = <productType[]>[];
+
+    for (let i = 0; i < results.rows.length; ++i) {
+      productList.push(results.rows.item(i));
+    }
+    setProductList(productList);
+  }
 };
 
-export const DeleteProduct = (productInfo: any) => {
-  DeleteProductInTable(productInfo);
+export const updateProductController = (editedProduct: productType) => {
+  updateProductInTable(editedProduct);
+};
+
+export const DeleteProductController = (editedProduct: productType) => {
+  DeleteProductInTable(editedProduct);
 };

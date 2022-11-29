@@ -4,14 +4,14 @@ import { Container, Box, ClientButton } from "./styles";
 import Typography from "../../components/typography";
 import { FlatList, ListRenderItemInfo } from "react-native";
 import { RootStackScreenProps } from "../../types";
-import { selectClients } from "../../services/db/controllers/clients";
+import { selectClientsController } from "../../services/db/controllers/clients";
 import { clientType } from "../../types";
 
 const Clients = ({ navigation }: RootStackScreenProps<"Clients">) => {
   const [clientList, setClientList] = useState<clientType[]>([]);
 
   useEffect(() => {
-    selectClients(setClientList);
+    selectClientsController(setClientList);
   }, []);
 
   const renderClient = ({ item }: ListRenderItemInfo<clientType>) => {

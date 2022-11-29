@@ -10,7 +10,7 @@ import Clients from "./screens/clients";
 import addClient from "./screens/addClient";
 import ClientDetails from "./screens/clientDetails";
 
-import AddDebt from "./screens/addDebt";
+import AddDebt from "./screens/newProduct";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

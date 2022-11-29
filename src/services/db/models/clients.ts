@@ -1,20 +1,12 @@
-import * as query from "../querys";
+import * as query from "../querys/clients";
 import { DatabaseConection } from "../config";
+import { clientType, newClientType } from "../../../types";
 
 const db = DatabaseConection.getConection();
 
 export const createClientsTable = () => {
   db.transaction((tx) => {
-    tx.executeSql(
-      query.create_clients_table,
-      [],
-      (tx, res) => {
-        console.log("clients table", res.rows.length);
-      },
-      function (tx, err) {
-        console.log("create clients table error =>>", err);
-      }
-    );
+    tx.executeSql(query.create_clients_table, [], (tx, results) => {});
   });
 };
 
@@ -28,20 +20,27 @@ export const selectClientsFromTable = (getResults: any) => {
 };
 
 export const insertIntoClientsTable = (
-  name: string,
-  touch: string,
-  street: string,
-  apartament: string,
-  block: string,
-  queryFeedBack: any,
-  dbFeedBack: any
+  newClient: newClientType,
+  getResults: any
 ) => {
+  const {
+    clientName,
+    clientTouch,
+    clientStreet,
+    clientApartament,
+    clientBlock,
+  } = newClient;
+
+  const params = [
+    clientName,
+    clientTouch,
+    clientStreet,
+    clientApartament,
+    clientBlock,
+  ];
   db.transaction((tx) => {
-    tx.executeSql(
-      query.insert_into_clients_table,
-      [name, touch, street, apartament, block],
-      (tx, queryResults) => queryFeedBack(queryResults),
-      (tx, dbError) => dbFeedBack(dbError)
+    tx.executeSql(query.insert_into_clients_table, params, (tx, queryResults) =>
+      getResults(queryResults)
     );
   });
 };
@@ -62,39 +61,21 @@ export const deleteFromClientsTable = (clientName: string) => {
   );
 };
 
-export const updateClientFromTable = (clientInfo: any) => {
-  console.log("dados no model", clientInfo);
-  const {
-    client_name,
-    client_touch,
-    client_street,
-    client_apartament,
-    client_block,
-  } = clientInfo;
+export const updateClientFromTable = (
+  editedClient: clientType,
+  getResults: any
+) => {
+  const params = [
+    editedClient.client_touch,
+    editedClient.client_street,
+    editedClient.client_apartament,
+    editedClient.client_block,
+    editedClient.client_name,
+  ];
 
   db.transaction((tx) =>
-    tx.executeSql(
-      "UPDATE clients_table SET client_touch= ?, client_street= ?, client_apartament= ?, client_block= ?  WHERE client_name= ?",
-      [
-        client_touch,
-        client_street,
-        client_apartament,
-        client_block,
-        client_name,
-      ],
-      (tx, results) => {
-        console.log("roll", results.rowsAffected);
-        if (results.rowsAffected > 0) {
-          console.log("editado com sucesso !");
-        } else {
-          console.log("n foi possivel");
-        }
-      },
-      (tx, error) => {
-        console.log(error);
-      }
+    tx.executeSql(query.update_client, params, (tx, results) =>
+      getResults(results)
     )
   );
 };
-
-//UPDATE clients_table set client_name=?, client_touch=?, client_street=?, client_apartament=?, client_block=? WHERE client_name=?

@@ -20,12 +20,29 @@ export interface clientType {
   client_touch: string;
 }
 
-export interface clientInfoTypes {
-  name: string;
-  touch: string;
-  street: string;
-  apartament: string;
-  block: string;
+export interface newClientType {
+  clientName: string;
+  clientTouch: string;
+  clientStreet: string;
+  clientApartament: string;
+  clientBlock: string;
+}
+
+export interface productType {
+  product_id: number;
+  product_name: string;
+  product_value: string;
+  product_client: string;
+}
+
+export interface newProductType {
+  productName: string;
+  productValue: string;
+}
+
+export interface errorType {
+  status: boolean;
+  payload: string;
 }
 
 export type RootStackParamList = {

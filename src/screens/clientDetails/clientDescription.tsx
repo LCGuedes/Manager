@@ -3,32 +3,38 @@ import { Modal } from "react-native";
 import styled from "styled-components/native";
 import DeleteModal from "./components/deleteModal";
 import EditModal from "./components/editModal";
+import { clientType } from "../../types";
 
-export default function Description({ clientInfo }: any) {
-  const [openDeleteModal, setDeleteModal] = useState<boolean>(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
+interface ClientType {
+  client: clientType;
+}
+
+const ClientDescription = ({ client }: ClientType) => {
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+
   return (
     <Container>
       <Box>
         <P>Nome:</P>
-        <D>{clientInfo.client_name}</D>
+        <D>{client.client_name}</D>
       </Box>
       <Box>
         <P>Telefone de contato:</P>
-        <D>{clientInfo.client_touch}</D>
+        <D>{client.client_touch}</D>
       </Box>
       <Box>
         <P>Rua: </P>
-        <D>{clientInfo.client_street}</D>
+        <D>{client.client_street}</D>
       </Box>
       <Box>
         <P>Quadra: </P>
-        <D>{clientInfo.client_apartament}</D>
+        <D>{client.client_apartament}</D>
       </Box>
 
       <Box>
         <P>Casa:</P>
-        <D>{clientInfo.client_block}</D>
+        <D>{client.client_block}</D>
       </Box>
 
       <ButtonsBox>
@@ -41,29 +47,28 @@ export default function Description({ clientInfo }: any) {
           visible={openEditModal}
           onRequestClose={() => setOpenEditModal(false)}
         >
-          <EditModal
-            setOpenEditModal={setOpenEditModal}
-            clientInfo={clientInfo}
-          />
+          <EditModal setOpenEditModal={setOpenEditModal} client={client} />
         </Modal>
         <Modal
           animationType="fade"
           transparent
           visible={openDeleteModal}
-          onRequestClose={() => setDeleteModal(false)}
+          onRequestClose={() => setOpenDeleteModal(false)}
         >
           <DeleteModal
-            openDeleteModal={setDeleteModal}
-            clientName={clientInfo.client_name}
+            openDeleteModal={setOpenDeleteModal}
+            clientName={client.client_name}
           />
         </Modal>
-        <OptionsButton onPress={() => setDeleteModal(true)}>
+        <OptionsButton onPress={() => setOpenDeleteModal(true)}>
           <B>Deletar cliente</B>
         </OptionsButton>
       </ButtonsBox>
     </Container>
   );
-}
+};
+
+export default ClientDescription;
 
 const Container = styled.View`
   padding: 24px;

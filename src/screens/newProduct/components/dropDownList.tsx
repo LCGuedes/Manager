@@ -1,28 +1,24 @@
 import { useState } from "react";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../theme";
+import { theme } from "../../../theme";
+import { clientType } from "../../../types";
 
-interface dropDownTypes {
-  list: Array<string>;
-  placeholder?: string;
+interface dropDownType {
+  list: Array<clientType>;
+  placeholder: string;
   value: string;
   setValue: any;
 }
 
-interface listTypes {
-  list: Array<string>;
+interface listType {
+  list: Array<clientType>;
   setValue: any;
   setIsOpen: any;
 }
 
-const DropDownList = ({
-  list,
-  placeholder,
-  value,
-  setValue,
-}: dropDownTypes) => {
-  const [isOpen, setIsOpen] = useState(false);
+const DropDownList = ({ list, placeholder, value, setValue }: dropDownType) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <Container>
@@ -44,7 +40,7 @@ const DropDownList = ({
   );
 };
 
-function List({ list, setValue, setIsOpen }: listTypes) {
+function List({ list, setValue, setIsOpen }: listType) {
   const handleList = (item: string) => {
     setValue(item);
     setIsOpen(false);
@@ -80,6 +76,7 @@ export const InputField = styled.TextInput`
   width: 240px;
   height: 48px;
   padding-left: 12px;
+  //color: black;
 `;
 
 export const Button = styled.TouchableOpacity`

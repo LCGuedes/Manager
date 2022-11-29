@@ -7,6 +7,8 @@ export const create_clients_table =
   "client_apartament VARCHAR(255), " +
   "client_block VARCHAR(255) );";
 
+export const select_clients_from_clients_table = "SELECT * FROM clients_table";
+
 export const insert_into_clients_table =
   "INSERT INTO clients_table ( " +
   "client_name, " +
@@ -23,3 +25,6 @@ export const update_client =
   "client_apartament= ?, " +
   "client_block= ? " +
   "WHERE client_name= ?";
+
+export const delete_client_from_clients_table =
+  "DELETE FROM clients_table WHERE client_name=?";

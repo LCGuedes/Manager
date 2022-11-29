@@ -3,7 +3,7 @@ import DropDownList from "./components/dropDownList";
 import Header from "../../components/header";
 import Button from "../../components/button";
 import { useState, useEffect } from "react";
-import { newProductController } from "../../services/db/controllers/dbt";
+import { newProductController } from "../../services/db/controllers/products";
 import { selectClientsController } from "../../services/db/controllers/clients";
 import { clientType, newProductType } from "../../types";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";

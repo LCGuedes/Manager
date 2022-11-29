@@ -10,7 +10,7 @@ import { productType, errorType } from "../../../types";
 import {
   updateProductController,
   DeleteProductController,
-} from "../../../services/db/controllers/dbt";
+} from "../../../services/db/controllers/products";
 
 interface editableProductModalType {
   editableProduct: productType;

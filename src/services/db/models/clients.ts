@@ -13,30 +13,19 @@ export const createClientsTable = () => {
 export const selectClientsFromTable = (getResults: any) => {
   const db = DatabaseConection.getConection();
   db.transaction((tx) => {
-    tx.executeSql("SELECT * FROM clients_table", [], (tx, results) =>
+    tx.executeSql(query.select_clients_from_clients_table, [], (tx, results) =>
       getResults(results)
     );
   });
 };
 
-export const insertIntoClientsTable = (
-  newClient: newClientType,
-  getResults: any
-) => {
-  const {
-    clientName,
-    clientTouch,
-    clientStreet,
-    clientApartament,
-    clientBlock,
-  } = newClient;
-
+export const insertIntoClientsTable = (newClient: newClientType, getResults: any) => {
   const params = [
-    clientName,
-    clientTouch,
-    clientStreet,
-    clientApartament,
-    clientBlock,
+    newClient.clientName,
+    newClient.clientTouch,
+    newClient.clientStreet,
+    newClient.clientApartament,
+    newClient.clientBlock,
   ];
   db.transaction((tx) => {
     tx.executeSql(query.insert_into_clients_table, params, (tx, queryResults) =>
@@ -48,23 +37,14 @@ export const insertIntoClientsTable = (
 export const deleteFromClientsTable = (clientName: string) => {
   db.transaction((tx) =>
     tx.executeSql(
-      "DELETE FROM clients_table WHERE client_name=?",
+      query.delete_client_from_clients_table,
       [clientName],
-      (tx, results) => {
-        if (results.rowsAffected > 0) {
-          console.log("client deletado");
-        } else {
-          console.log("digite um client existente");
-        }
-      }
+      (tx, results) => {}
     )
   );
 };
 
-export const updateClientFromTable = (
-  editedClient: clientType,
-  getResults: any
-) => {
+export const updateClientFromTable = (editedClient: clientType, getResults: any) => {
   const params = [
     editedClient.client_touch,
     editedClient.client_street,
@@ -74,8 +54,6 @@ export const updateClientFromTable = (
   ];
 
   db.transaction((tx) =>
-    tx.executeSql(query.update_client, params, (tx, results) =>
-      getResults(results)
-    )
+    tx.executeSql(query.update_client, params, (tx, results) => getResults(results))
   );
 };

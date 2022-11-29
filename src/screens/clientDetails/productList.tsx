@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { View, Modal } from "react-native";
 import EditableProductModal from "./components/editableProductModal";
 import { useState, useEffect } from "react";
-import { selectProductsController } from "../../services/db/controllers/dbt";
+import { selectProductsController } from "../../services/db/controllers/products";
 import { productType, clientType } from "../../types";
 
 const mockEditedProduct = {

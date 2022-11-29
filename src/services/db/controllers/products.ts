@@ -1,20 +1,20 @@
 import {
-  selectProductsFromTable,
-  insertProductInTable,
-  updateProductInTable,
-  DeleteProductInTable,
-} from "../models/dbt";
+  selectProductsFromProductsTable,
+  insertProductInProductsTable,
+  updateProductInProductsTable,
+  DeleteProductInProductsTable,
+} from "../models/products";
 
 import { productType, newProductType } from "../../../types";
 
 export const newProductController = (newProduct: newProductType, clientName: string) => {
-  insertProductInTable(newProduct, clientName, getResults);
+  insertProductInProductsTable(newProduct, clientName, getResults);
 
   function getResults(results: any) {}
 };
 
 export const selectProductsController = (clientName: string, setProductList: any) => {
-  selectProductsFromTable(clientName, getResults);
+  selectProductsFromProductsTable(clientName, getResults);
 
   function getResults(results: any) {
     let productList = <productType[]>[];
@@ -27,9 +27,9 @@ export const selectProductsController = (clientName: string, setProductList: any
 };
 
 export const updateProductController = (editedProduct: productType) => {
-  updateProductInTable(editedProduct);
+  updateProductInProductsTable(editedProduct);
 };
 
 export const DeleteProductController = (editedProduct: productType) => {
-  DeleteProductInTable(editedProduct);
+  DeleteProductInProductsTable(editedProduct);
 };

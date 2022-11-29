@@ -6,14 +6,14 @@ import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import Dot from "../../../assets/icons/three-dots.svg";
 import { RootStackScreenProps } from "../../types";
 import { createClientsTable } from "../../services/db/models/clients";
-import { createDebtTable } from "../../services/db/models/dbt";
+import { createProductsTable } from "../../services/db/models/products";
 
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
     createClientsTable();
-    createDebtTable();
+    createProductsTable();
   }, []);
 
   const openModal = () => {
@@ -41,7 +41,7 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
             <P>Lista de clientes</P>
           </SheetButton>
           <SheetButton onPress={() => navigation.navigate("AddDebt")}>
-            <P>Adicionar Débito</P>
+            <P>Adicionar produto</P>
           </SheetButton>
         </BottomSheetView>
       </BottomSheet>

@@ -19,7 +19,7 @@ interface ClientType {
 interface cardType {
   productList: productType[];
   openModal: boolean;
-  setOpenModal: any;
+  setOpenModal: (state: boolean) => void;
 }
 
 const ProductList = ({ client }: ClientType) => {
@@ -32,13 +32,18 @@ const ProductList = ({ client }: ClientType) => {
 
   return (
     <Container>
-      <Card productList={productList} openModal={openModal} setOpenModal={setOpenModal} />
+      <Card
+        productList={productList}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
     </Container>
   );
 };
 
 const Card = ({ productList, openModal, setOpenModal }: cardType) => {
-  const [editableProduct, setEditableProduct] = useState<productType>(mockEditedProduct);
+  const [editableProduct, setEditableProduct] =
+    useState<productType>(mockEditedProduct);
 
   const getEditableProduct = (product: productType) => {
     setEditableProduct(product);

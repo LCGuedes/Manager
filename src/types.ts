@@ -40,7 +40,7 @@ export interface newProductType {
   productValue: string;
 }
 
-export interface errorType {
+export interface feedBackHandlingType {
   status: boolean;
   payload: string;
 }

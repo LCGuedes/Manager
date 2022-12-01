@@ -12,7 +12,7 @@ export const newProductController = (
   clientName: string,
   handleErrorMsg: (status: string, errorMsg: string) => void
 ) => {
-  insertProductInProductsTable(newProduct, clientName, getResults);
+  insertProductInProductsTable(newProduct, clientName, getResults, getdbError);
 
   function getResults(results: any) {
     if (results.rowsAffected > 0) {
@@ -20,6 +20,10 @@ export const newProductController = (
     } else {
       handleErrorMsg("fail", "Não foi possível cadastrar o produto");
     }
+  }
+
+  function getdbError(error: any) {
+    console.log(error);
   }
 };
 

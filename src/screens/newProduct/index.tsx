@@ -18,18 +18,30 @@ const initialProduct = {
 
 export default function NewProduct() {
   const [clientList, setClientList] = useState<clientType[]>([]);
-  const [clientName, setClientName] = useState<string>("");
+  const [clientName, setClientName] = useState("");
+
+  const clients = clientList.map((item) => item.client_name);
+
   const [feedBack, setFeedBack] = useState({ status: "", msg: "" });
 
   useEffect(() => {
     selectClientsController(setClientList);
   }, []);
 
-  const haandleNewProduct = (values: newProductType) => {
+  const handleNewProduct = (values: newProductType) => {
     const handleErrorMsg = (status: string, errorMsg: string) => {
       setFeedBack({ ...feedBack, status: status, msg: errorMsg });
     };
-    newProductController(values, clientName, handleErrorMsg);
+
+    if (clientName === "") {
+      const errorMsg = "Selecione o cliente";
+      setFeedBack({ ...feedBack, status: "select client", msg: errorMsg });
+    } else if (!clients.includes(clientName)) {
+      const errorMsg = "Seleciona um cliente já cadastrado";
+      setFeedBack({ ...feedBack, status: "fail", msg: errorMsg });
+    } else {
+      newProductController(values, clientName, handleErrorMsg);
+    }
   };
 
   return (
@@ -40,7 +52,7 @@ export default function NewProduct() {
         <Formik
           initialValues={initialProduct}
           validationSchema={newProductSchema}
-          onSubmit={haandleNewProduct}
+          onSubmit={handleNewProduct}
         >
           {({
             errors,
@@ -53,6 +65,9 @@ export default function NewProduct() {
           }) => (
             <Form>
               <FormBox>
+                {feedBack.status === "select client" ? (
+                  <Error>Selecione o cliente</Error>
+                ) : null}
                 <DropDownList
                   list={clientList}
                   placeholder="Selecione o cliente"

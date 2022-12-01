@@ -8,12 +8,12 @@ interface dropDownType {
   list: Array<clientType>;
   placeholder: string;
   value: string;
-  setValue: any;
+  setValue: (clientName: string) => void;
 }
 
 interface listType {
   list: Array<clientType>;
-  setValue: any;
+  setValue: (clientName: string) => void;
   setIsOpen: any;
 }
 
@@ -34,13 +34,13 @@ const DropDownList = ({ list, placeholder, value, setValue }: dropDownType) => {
       </InputBox>
 
       {isOpen ? (
-        <List list={list} setValue={setValue} setIsOpen={setIsOpen} />
+        <List list={list} setIsOpen={setIsOpen} setValue={setValue} />
       ) : null}
     </Container>
   );
 };
 
-function List({ list, setValue, setIsOpen }: listType) {
+function List({ list, setIsOpen, setValue }: listType) {
   const handleList = (item: string) => {
     setValue(item);
     setIsOpen(false);
@@ -60,15 +60,15 @@ function List({ list, setValue, setIsOpen }: listType) {
   );
 }
 
-export const Container = styled.View`
+const Container = styled.View`
   margin-bottom: 12px;
 `;
 
-export const InputBox = styled.View`
+const InputBox = styled.View`
   flex-direction: row;
 `;
 
-export const InputField = styled.TextInput`
+const InputField = styled.TextInput`
   border: 1px solid ${({ theme }) => theme.pallete.primary.main};
   border-radius: ${({ theme }) => theme.borderRadius};
   border-top-right-radius: 0;
@@ -76,10 +76,9 @@ export const InputField = styled.TextInput`
   width: 240px;
   height: 48px;
   padding-left: 12px;
-  //color: black;
 `;
 
-export const Button = styled.TouchableOpacity`
+const Button = styled.TouchableOpacity`
   width: 48px;
   height: 48px;
   align-items: center;
@@ -90,7 +89,7 @@ export const Button = styled.TouchableOpacity`
   border-bottom-left-radius: 0;
 `;
 
-export const ListBox = styled.View`
+const ListBox = styled.View`
   width: 288px;
   border: 1px solid ${({ theme }) => theme.pallete.primary.main};
   border-radius: ${({ theme }) => theme.borderRadius};
@@ -98,7 +97,7 @@ export const ListBox = styled.View`
   padding: 12px;
 `;
 
-export const ListItem = styled.Text`
+const ListItem = styled.Text`
   color: ${({ theme }) => theme.pallete.primary.main};
   margin-bottom: 4px;
 `;

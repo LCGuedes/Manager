@@ -5,20 +5,18 @@ import {
   Input,
   AddressButton,
   Error,
-  ValidateMsgBox,
-  ValidateText,
 } from "./styles";
 import Header from "../../components/header";
 import Button from "../../components/button";
+import FeedBackMsgBox from "../../components/feedBackMsgBox";
 import Typography from "../../components/typography";
 import { useState } from "react";
-import { newClientType, errorType } from "../../types";
+import { newClientType } from "../../types";
 import { newClientController } from "../../services/db/controllers/clients";
-import {
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { Keyboard } from "react-native";
+
+import { Formik } from "formik";
+import { newClientSchema } from "../../schemas/newClient";
 
 const initialClient = {
   clientName: "",
@@ -28,43 +26,16 @@ const initialClient = {
   clientBlock: "",
 };
 
-const initialErrorStatus = {
-  status: false,
-  payload: "",
-};
-
 const AddClient = () => {
-  const [newClient, setNewClient] = useState<newClientType>(initialClient);
-  const [errorStatus, setErrorStatus] = useState<errorType>(initialErrorStatus);
-  const [addressSection, setAddressSection] = useState<boolean>(false);
-  const [validationMsg, setValidationMsg] = useState<string>("");
+  const [addressSection, setAddressSection] = useState(false);
+  const [feedBack, setFeedBack] = useState({ status: "", msg: "" });
 
-  const handleNewClient = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-    name: string
-  ) => {
-    const value = e.nativeEvent.text;
+  const haandleNewClient = (values: newClientType) => {
+    const handleErrorMsg = (status: string, errorMsg: string) => {
+      setFeedBack({ ...feedBack, status: status, msg: errorMsg });
+    };
+    newClientController(values, handleErrorMsg);
 
-    if (name === "clientName" && value.length > 0) {
-      setErrorStatus({ ...errorStatus, status: false, payload: "" });
-    }
-
-    setNewClient({ ...newClient, [name]: value });
-  };
-
-  const addNewClient = () => {
-    if (newClient.clientName === "") {
-      setErrorStatus({
-        ...errorStatus,
-        status: true,
-        payload: "Informe o nome do cliente",
-      });
-    } else {
-      const handleErrorMsg = (errorMsg: string) => {
-        setValidationMsg(errorMsg);
-      };
-      newClientController(newClient, handleErrorMsg);
-    }
     Keyboard.dismiss();
   };
 
@@ -72,55 +43,79 @@ const AddClient = () => {
     <>
       <Header label="Adicionar Cliente" />
       <Container>
-        <Form>
-          <FormBox>
-            <Input
-              placeholder="Nome:"
-              value={newClient.clientName}
-              onChange={(e) => handleNewClient(e, "clientName")}
-            />
-            {errorStatus.status ? <Error>{errorStatus.payload}</Error> : null}
-            <Input
-              placeholder="Contato:"
-              value={newClient.clientTouch}
-              onChange={(e) => handleNewClient(e, "clientTouch")}
-            />
-
-            <AddressButton onPress={() => setAddressSection(!addressSection)}>
-              <Typography label="Adicionar endereço" fontSize="14px" />
-            </AddressButton>
-
-            {addressSection ? (
-              <>
+        <Formik
+          initialValues={initialClient}
+          validationSchema={newClientSchema}
+          onSubmit={haandleNewClient}
+        >
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isValid,
+            touched,
+            values,
+          }) => (
+            <Form>
+              <FormBox>
+                {errors.clientName && touched.clientName && (
+                  <Error>{errors.clientName}</Error>
+                )}
                 <Input
-                  placeholder="Rua:"
-                  value={newClient.clientStreet}
-                  onChange={(e) => handleNewClient(e, "clientStreet")}
+                  placeholder="Nome:"
+                  value={values.clientName}
+                  onChangeText={handleChange("clientName")}
+                  onBlur={handleBlur("clientName")}
                 />
-                <Input
-                  placeholder="Casa:"
-                  value={newClient.clientApartament}
-                  onChange={(e) => handleNewClient(e, "clientApartament")}
-                />
-                <Input
-                  placeholder="Quadra:"
-                  value={newClient.clientBlock}
-                  onChange={(e) => handleNewClient(e, "clientBlock")}
-                />
-              </>
-            ) : null}
-          </FormBox>
 
-          <Button
-            onPress={addNewClient}
-            description="Adicionar cliente"
-            disabled={errorStatus.status}
-          />
-        </Form>
-        {validationMsg ? (
-          <ValidateMsgBox>
-            <ValidateText>{validationMsg}</ValidateText>
-          </ValidateMsgBox>
+                <Input
+                  placeholder="Contato:"
+                  value={values.clientTouch}
+                  onChangeText={handleChange("clientTouch")}
+                  onBlur={handleBlur("clientTouch")}
+                />
+                <AddressButton
+                  onPress={() => setAddressSection(!addressSection)}
+                >
+                  <Typography label="Adicionar endereço" fontSize="14px" />
+                </AddressButton>
+
+                {addressSection ? (
+                  <>
+                    <Input
+                      placeholder="Rua:"
+                      value={values.clientStreet}
+                      onChangeText={handleChange("clientStreet")}
+                      onBlur={handleBlur("clientStreet")}
+                    />
+                    <Input
+                      placeholder="Casa:"
+                      value={values.clientApartament}
+                      onChangeText={handleChange("clientApartament")}
+                      onBlur={handleBlur("clientApartament")}
+                    />
+                    <Input
+                      placeholder="Quadra:"
+                      value={values.clientBlock}
+                      onChangeText={handleChange("clientBlock")}
+                      onBlur={handleBlur("clientBlock")}
+                    />
+                  </>
+                ) : null}
+              </FormBox>
+              <Button
+                onPress={handleSubmit}
+                description="Adicionar cliente"
+                disabled={!isValid}
+              />
+            </Form>
+          )}
+        </Formik>
+        {feedBack.status === "success" ? (
+          <FeedBackMsgBox feedBackMsg={feedBack.msg} type={feedBack.status} />
+        ) : feedBack.status === "fail" ? (
+          <FeedBackMsgBox feedBackMsg={feedBack.msg} type={feedBack.status} />
         ) : null}
       </Container>
     </>

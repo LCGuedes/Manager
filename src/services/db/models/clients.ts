@@ -19,7 +19,11 @@ export const selectClientsFromTable = (getResults: any) => {
   });
 };
 
-export const insertIntoClientsTable = (newClient: newClientType, getResults: any) => {
+export const insertIntoClientsTable = (
+  newClient: newClientType,
+  getResults: any,
+  getdbError: any
+) => {
   const params = [
     newClient.clientName,
     newClient.clientTouch,
@@ -28,8 +32,13 @@ export const insertIntoClientsTable = (newClient: newClientType, getResults: any
     newClient.clientBlock,
   ];
   db.transaction((tx) => {
-    tx.executeSql(query.insert_into_clients_table, params, (tx, queryResults) =>
-      getResults(queryResults)
+    tx.executeSql(
+      query.insert_into_clients_table,
+      params,
+      (tx, queryResults) => {
+        getResults(queryResults);
+      },
+      (tx, error) => getdbError(error)
     );
   });
 };
@@ -44,7 +53,10 @@ export const deleteFromClientsTable = (clientName: string) => {
   );
 };
 
-export const updateClientFromTable = (editedClient: clientType, getResults: any) => {
+export const updateClientFromTable = (
+  editedClient: clientType,
+  getResults: any
+) => {
   const params = [
     editedClient.client_touch,
     editedClient.client_street,
@@ -54,6 +66,8 @@ export const updateClientFromTable = (editedClient: clientType, getResults: any)
   ];
 
   db.transaction((tx) =>
-    tx.executeSql(query.update_client, params, (tx, results) => getResults(results))
+    tx.executeSql(query.update_client, params, (tx, results) =>
+      getResults(results)
+    )
   );
 };

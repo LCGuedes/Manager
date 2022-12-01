@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { View, Modal } from "react-native";
+import { View, Modal, FlatList, ScrollView } from "react-native";
 import EditableProductModal from "./components/editableProductModal";
 import { useState, useEffect } from "react";
 import { selectProductsController } from "../../services/db/controllers/products";
@@ -49,16 +49,24 @@ const Card = ({ productList, openModal, setOpenModal }: cardType) => {
     setEditableProduct(product);
   };
 
+  const renderProduct = ({ item }: any) => {
+    return (
+      <View key={item.product_id}>
+        <Box onPress={() => (setOpenModal(true), getEditableProduct(item))}>
+          <P>{item.product_name}</P>
+          <P>{`R$ ${item.product_value}`}</P>
+        </Box>
+      </View>
+    );
+  };
+
   return (
     <>
-      {productList.map((item: productType) => (
-        <View key={item.product_id}>
-          <Box onPress={() => (setOpenModal(true), getEditableProduct(item))}>
-            <P>{item.product_name}</P>
-            <P>{`R$ ${item.product_value}`}</P>
-          </Box>
-        </View>
-      ))}
+      <FlatList
+        data={productList}
+        renderItem={renderProduct}
+        showsVerticalScrollIndicator={false}
+      />
       <Modal
         animationType="fade"
         transparent

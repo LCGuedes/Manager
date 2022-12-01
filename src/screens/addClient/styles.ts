@@ -38,19 +38,5 @@ export const AddressButton = styled.TouchableOpacity`
 
 export const Error = styled.Text`
   color: ${({ theme }) => theme.pallete.common.errorColor};
-`;
-
-export const ValidateMsgBox = styled.View`
-  width: 80%;
-  height: 60px;
-  //background-color: white;
-  border: 0.5px solid #4bb543;
-  border-radius: 12px;
-  padding: 12px;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ValidateText = styled.Text`
-  color: #4bb543;
+  margin-bottom: 8px;
 `;

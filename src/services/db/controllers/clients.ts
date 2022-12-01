@@ -8,15 +8,21 @@ import {
 
 export const newClientController = (
   newClient: newClientType,
-  handleErrorMsg: any
+  handleErrorMsg: (status: string, errorMsg: string) => void
 ) => {
-  insertIntoClientsTable(newClient, getResults);
+  insertIntoClientsTable(newClient, getResults, getdbError);
 
   function getResults(queryResults: any) {
     if (queryResults.rowsAffected > 0) {
-      handleErrorMsg("Cliente cadastrado com sucesso !");
+      handleErrorMsg("success", "Cliente cadastrado com sucesso !");
     } else {
-      handleErrorMsg("Não foi possível cadastrar o cliente");
+      handleErrorMsg("fail", "Não foi possível cadastrar o cliente");
+    }
+  }
+
+  function getdbError(error: any) {
+    if (error) {
+      handleErrorMsg("fail", "O cliente já existe");
     }
   }
 };

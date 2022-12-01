@@ -1,8 +1,11 @@
 import styled from "styled-components/native";
+import { ActivityIndicator } from "react-native";
+
 interface buttonType {
   onPress: () => any;
   description?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const RootButton = styled.TouchableOpacity`
@@ -20,10 +23,10 @@ const P = styled.Text`
   font-size: ${({ theme }) => theme.fontSize};
 `;
 
-const Button = ({ onPress, description, disabled }: buttonType) => {
+const Button = ({ onPress, description, disabled, loading }: buttonType) => {
   return (
     <RootButton onPress={onPress} disabled={disabled}>
-      <P>{description}</P>
+      {loading ? <ActivityIndicator color="white" /> : <P>{description}</P>}
     </RootButton>
   );
 };

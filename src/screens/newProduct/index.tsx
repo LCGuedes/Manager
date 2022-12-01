@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { newProductController } from "../../services/db/controllers/products";
 import { selectClientsController } from "../../services/db/controllers/clients";
 import { clientType, newProductType } from "../../types";
+import { Keyboard } from "react-native";
 
 import { Formik } from "formik";
 import { newProductSchema } from "../../schemas";
@@ -42,6 +43,7 @@ export default function NewProduct() {
     } else {
       newProductController(values, clientName, handleErrorMsg);
     }
+    Keyboard.dismiss();
   };
 
   return (

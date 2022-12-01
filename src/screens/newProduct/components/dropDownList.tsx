@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components/native";
+import { FlatList, ListRenderItemInfo } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../../theme";
 import { clientType } from "../../../types";
@@ -11,14 +12,21 @@ interface dropDownType {
   setValue: (clientName: string) => void;
 }
 
-interface listType {
-  list: Array<clientType>;
-  setValue: (clientName: string) => void;
-  setIsOpen: any;
-}
-
 const DropDownList = ({ list, placeholder, value, setValue }: dropDownType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const renderItem = ({ item }: ListRenderItemInfo<clientType>) => {
+    const handleList = (item: string) => {
+      setValue(item);
+      setIsOpen(false);
+    };
+
+    return (
+      <ListItem onPress={() => handleList(item.client_name)}>
+        {item.client_name}
+      </ListItem>
+    );
+  };
 
   return (
     <Container>
@@ -34,31 +42,17 @@ const DropDownList = ({ list, placeholder, value, setValue }: dropDownType) => {
       </InputBox>
 
       {isOpen ? (
-        <List list={list} setIsOpen={setIsOpen} setValue={setValue} />
+        <ListBox>
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+          />
+        </ListBox>
       ) : null}
     </Container>
   );
 };
-
-function List({ list, setIsOpen, setValue }: listType) {
-  const handleList = (item: string) => {
-    setValue(item);
-    setIsOpen(false);
-  };
-
-  return (
-    <ListBox>
-      {list.map((item) => (
-        <ListItem
-          key={item.client_name}
-          onPress={() => handleList(item.client_name)}
-        >
-          {item.client_name}
-        </ListItem>
-      ))}
-    </ListBox>
-  );
-}
 
 const Container = styled.View`
   margin-bottom: 12px;
@@ -91,6 +85,7 @@ const Button = styled.TouchableOpacity`
 
 const ListBox = styled.View`
   width: 288px;
+  height: 300px;
   border: 1px solid ${({ theme }) => theme.pallete.primary.main};
   border-radius: ${({ theme }) => theme.borderRadius};
   margin-top: 4px;

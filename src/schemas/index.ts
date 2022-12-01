@@ -7,3 +7,15 @@ export const newClientSchema = yup.object().shape({
   clientApartament: yup.string().label("Casa"),
   clientBlock: yup.string().label("Quadra"),
 });
+
+export const newProductSchema = yup.object().shape({
+  productName: yup
+    .string()
+    .label("produto")
+    .required("Digite o nome do produto"),
+  productValue: yup
+    .number()
+    .label("valor")
+    .required("Digite o valor do produto")
+    .positive(),
+});

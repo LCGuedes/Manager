@@ -1,4 +1,4 @@
-import { Container, Form, FormBox, Input } from "./styles";
+import { Container, Form, FormBox, Input, Error } from "./styles";
 import DropDownList from "./components/dropDownList";
 import Header from "../../components/header";
 import FeedBackMsgBox from "../../components/feedBackMsgBox";
@@ -7,7 +7,9 @@ import { useState, useEffect } from "react";
 import { newProductController } from "../../services/db/controllers/products";
 import { selectClientsController } from "../../services/db/controllers/clients";
 import { clientType, newProductType } from "../../types";
-import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+
+import { Formik } from "formik";
+import { newProductSchema } from "../../schemas";
 
 const initialProduct = {
   productName: "",
@@ -17,28 +19,17 @@ const initialProduct = {
 export default function NewProduct() {
   const [clientList, setClientList] = useState<clientType[]>([]);
   const [clientName, setClientName] = useState<string>("");
-  const [newProduct, setNewProduct] = useState<newProductType>(initialProduct);
-  const [validationMsg, setValidationMsg] = useState<string>("");
-
-  console.log("validtion", validationMsg);
+  const [feedBack, setFeedBack] = useState({ status: "", msg: "" });
 
   useEffect(() => {
     selectClientsController(setClientList);
   }, []);
 
-  const handleNewProduct = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-    name: string
-  ) => {
-    const value = e.nativeEvent.text;
-    setNewProduct({ ...newProduct, [name]: value });
-  };
-
-  const addNewProduct = () => {
-    const handleErrorMsg = (errorMsg: string) => {
-      setValidationMsg(errorMsg);
+  const haandleNewProduct = (values: newProductType) => {
+    const handleErrorMsg = (status: string, errorMsg: string) => {
+      setFeedBack({ ...feedBack, status: status, msg: errorMsg });
     };
-    newProductController(newProduct, clientName, handleErrorMsg);
+    newProductController(values, clientName, handleErrorMsg);
   };
 
   return (
@@ -46,29 +37,60 @@ export default function NewProduct() {
       <Header label="Adicionar produto" />
 
       <Container>
-        <Form>
-          <FormBox>
-            <DropDownList
-              list={clientList}
-              placeholder="Selecione o cliente"
-              value={clientName}
-              setValue={setClientName}
-            />
-            <Input
-              placeholder="Produto"
-              value={newProduct.productName}
-              onChange={(e) => handleNewProduct(e, "productName")}
-            />
-            <Input
-              placeholder="valor"
-              value={newProduct.productValue}
-              onChange={(e) => handleNewProduct(e, "productValue")}
-            />
-          </FormBox>
-          <Button description="Adicionar produto" onPress={addNewProduct} />
-        </Form>
-
-        {validationMsg ? <FeedBackMsgBox feedBackMsg={validationMsg} /> : null}
+        <Formik
+          initialValues={initialProduct}
+          validationSchema={newProductSchema}
+          onSubmit={haandleNewProduct}
+        >
+          {({
+            errors,
+            touched,
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isValid,
+          }) => (
+            <Form>
+              <FormBox>
+                <DropDownList
+                  list={clientList}
+                  placeholder="Selecione o cliente"
+                  value={clientName}
+                  setValue={setClientName}
+                />
+                {errors.productName && touched.productName && (
+                  <Error>{errors.productName}</Error>
+                )}
+                <Input
+                  placeholder="Produto"
+                  value={values.productName}
+                  onChangeText={handleChange("productName")}
+                  onBlur={handleBlur("productName")}
+                />
+                {errors.productValue && touched.productValue && (
+                  <Error>{errors.productValue}</Error>
+                )}
+                <Input
+                  placeholder="valor"
+                  value={values.productValue}
+                  onChangeText={handleChange("productValue")}
+                  onBlur={handleBlur("productValue")}
+                />
+              </FormBox>
+              <Button
+                description="Adicionar produto"
+                onPress={handleSubmit}
+                disabled={!isValid}
+              />
+            </Form>
+          )}
+        </Formik>
+        {feedBack.status === "success" ? (
+          <FeedBackMsgBox feedBackMsg={feedBack.msg} type={feedBack.status} />
+        ) : feedBack.status === "fail" ? (
+          <FeedBackMsgBox feedBackMsg={feedBack.msg} type={feedBack.status} />
+        ) : null}
       </Container>
     </>
   );

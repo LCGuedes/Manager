@@ -35,3 +35,8 @@ export const AddressButton = styled.TouchableOpacity`
   border-radius: 8px;
   margin-bottom: 12px;
 `;
+
+export const Error = styled.Text`
+  color: ${({ theme }) => theme.pallete.common.errorColor};
+  margin-bottom: 8px;
+`;

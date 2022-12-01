@@ -10,15 +10,15 @@ import { productType, newProductType } from "../../../types";
 export const newProductController = (
   newProduct: newProductType,
   clientName: string,
-  handleErrorMsg: (errorMsg: string) => void
+  handleErrorMsg: (status: string, errorMsg: string) => void
 ) => {
   insertProductInProductsTable(newProduct, clientName, getResults);
 
   function getResults(results: any) {
     if (results.rowsAffected > 0) {
-      handleErrorMsg("Produto cadastrado com sucesso !");
+      handleErrorMsg("success", "Produto cadastrado com sucesso !");
     } else {
-      handleErrorMsg("Não foi possível cadastrar o produto");
+      handleErrorMsg("fail", "Não foi possível cadastrar o produto");
     }
   }
 };

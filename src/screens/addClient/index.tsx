@@ -16,7 +16,7 @@ import { newClientController } from "../../services/db/controllers/clients";
 import { Keyboard } from "react-native";
 
 import { Formik } from "formik";
-import { newClientSchema } from "../../schemas/newClient";
+import { newClientSchema } from "../../schemas";
 
 const initialClient = {
   clientName: "",
@@ -30,7 +30,7 @@ const AddClient = () => {
   const [addressSection, setAddressSection] = useState(false);
   const [feedBack, setFeedBack] = useState({ status: "", msg: "" });
 
-  const haandleNewClient = (values: newClientType) => {
+  const handleNewClient = (values: newClientType) => {
     const handleErrorMsg = (status: string, errorMsg: string) => {
       setFeedBack({ ...feedBack, status: status, msg: errorMsg });
     };
@@ -46,7 +46,7 @@ const AddClient = () => {
         <Formik
           initialValues={initialClient}
           validationSchema={newClientSchema}
-          onSubmit={haandleNewClient}
+          onSubmit={handleNewClient}
         >
           {({
             errors,

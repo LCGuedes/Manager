@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { View, Modal, FlatList, ScrollView } from "react-native";
+import { View, Modal, FlatList, ListRenderItemInfo } from "react-native";
 import EditableProductModal from "./components/editableProductModal";
 import { useState, useEffect } from "react";
 import { selectProductsController } from "../../services/db/controllers/products";
@@ -16,43 +16,20 @@ interface ClientType {
   client: clientType;
 }
 
-interface cardType {
-  productList: productType[];
-  openModal: boolean;
-  setOpenModal: (state: boolean) => void;
-}
-
 const ProductList = ({ client }: ClientType) => {
   const [productList, setProductList] = useState<productType[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [editableProduct, setEditableProduct] =
+    useState<productType>(mockEditedProduct);
 
   useEffect(() => {
     selectProductsController(client.client_name, setProductList);
   }, [openModal]);
 
-  return (
-    <Container>
-      <Card
-        productList={productList}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      />
-    </Container>
-  );
-};
-
-const Card = ({ productList, openModal, setOpenModal }: cardType) => {
-  const [editableProduct, setEditableProduct] =
-    useState<productType>(mockEditedProduct);
-
-  const getEditableProduct = (product: productType) => {
-    setEditableProduct(product);
-  };
-
-  const renderProduct = ({ item }: any) => {
+  const renderProduct = ({ item }: ListRenderItemInfo<productType>) => {
     return (
       <View key={item.product_id}>
-        <Box onPress={() => (setOpenModal(true), getEditableProduct(item))}>
+        <Box onPress={() => (setOpenModal(true), setEditableProduct(item))}>
           <P>{item.product_name}</P>
           <P>{`R$ ${item.product_value}`}</P>
         </Box>
@@ -61,12 +38,14 @@ const Card = ({ productList, openModal, setOpenModal }: cardType) => {
   };
 
   return (
-    <>
-      <FlatList
-        data={productList}
-        renderItem={renderProduct}
-        showsVerticalScrollIndicator={false}
-      />
+    <Container>
+      <FlatlistBox>
+        <FlatList
+          data={productList}
+          renderItem={renderProduct}
+          showsVerticalScrollIndicator={false}
+        />
+      </FlatlistBox>
       <Modal
         animationType="fade"
         transparent
@@ -78,7 +57,7 @@ const Card = ({ productList, openModal, setOpenModal }: cardType) => {
           editableProduct={editableProduct}
         />
       </Modal>
-    </>
+    </Container>
   );
 };
 
@@ -86,6 +65,10 @@ export default ProductList;
 
 const Container = styled.View`
   padding: 12px;
+`;
+
+const FlatlistBox = styled.View`
+  height: 77%;
 `;
 
 const Box = styled.TouchableOpacity`

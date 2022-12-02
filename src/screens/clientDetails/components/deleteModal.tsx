@@ -42,44 +42,66 @@ const DeleteModal = ({ openDeleteModal, clientName }: deleteModalType) => {
 
   return (
     <DefaultModal
-      openFeedBackSection={openFeedBackSection}
+      feedBack={{
+        status: openFeedBackSection,
+        type: "success",
+        payload: "Cliente deletado com sucesso !",
+      }}
       setOpenModal={openDeleteModal}
-      feedBackMsg={"Cliente deletado com sucesso !"}
     >
-      <TextBox>
-        <P>Deletar cliente</P>
-        <D>Tem certeza que quer deletar o cliente {<A>{clientName}</A>} ?</D>
-      </TextBox>
-      <Input
-        placeholder="Digite o nome do cliente"
-        onChange={(e) => setInputClientName(e.nativeEvent.text)}
-      />
-      {handleFeedBack.status ? (
-        <ErrorMsg>{handleFeedBack.payload}</ErrorMsg>
-      ) : null}
-      <ButtonBox>
-        <CancelButton>
-          <BtnP onPress={() => openDeleteModal(false)}>Cancelar</BtnP>
-        </CancelButton>
-        <Button>
-          <BtnP onPress={handleDeleteClient}>Deletar</BtnP>
-        </Button>
-      </ButtonBox>
+      <Container>
+        <TextBox>
+          <P>Deletar cliente</P>
+          <D>Tem certeza que quer deletar o cliente {<A>{clientName}</A>} ?</D>
+        </TextBox>
+        {handleFeedBack.status ? (
+          <ErrorMsg>{handleFeedBack.payload}</ErrorMsg>
+        ) : null}
+        <Input
+          placeholder="Digite o nome do cliente"
+          onChange={(e) => setInputClientName(e.nativeEvent.text)}
+        />
+
+        <ButtonBox>
+          <CancelButton>
+            <BtnP onPress={() => openDeleteModal(false)}>Cancelar</BtnP>
+          </CancelButton>
+          <Button>
+            <BtnP onPress={handleDeleteClient}>Deletar</BtnP>
+          </Button>
+        </ButtonBox>
+      </Container>
     </DefaultModal>
   );
 };
 
 export default DeleteModal;
 
+const Container = styled.View`
+  padding: 24px;
+`;
+
+const TextBox = styled.View`
+  margin-bottom: 12px;
+`;
+
+const P = styled.Text`
+  font-size: 16px;
+  margin-bottom: 6px;
+`;
+
+const D = styled.Text`
+  color: rgba(0, 0, 0, 0.4);
+`;
+
 const Input = styled.TextInput`
   border: 1px solid red;
-  width: 100%;
+
   height: 40px;
   border-radius: 12px;
   padding: 12px;
+  margin-bottom: 12px;
 `;
-
-const TextBox = styled.View``;
 
 const ButtonBox = styled.View`
   flex-direction: row;
@@ -103,19 +125,11 @@ const BtnP = styled.Text`
   color: white;
 `;
 
-const P = styled.Text`
-  font-size: 16px;
-  margin-bottom: 12px;
-`;
-
-const D = styled.Text`
-  color: rgba(0, 0, 0, 0.4);
-`;
-
 const A = styled.Text`
   color: ${({ theme }) => theme.pallete.common.errorColor};
 `;
 
 const ErrorMsg = styled.Text`
   color: ${({ theme }) => theme.pallete.common.errorColor};
+  margin-bottom: 6px;
 `;

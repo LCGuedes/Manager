@@ -5,23 +5,28 @@ import { TouchableNativeFeedback } from "react-native";
 interface defaultModalType {
   children: React.ReactNode;
   setOpenModal: (state: boolean) => void;
-  openFeedBackSection: boolean;
-  feedBackMsg: string;
+  feedBack: {
+    status: boolean;
+    type: string;
+    payload: string;
+  };
 }
 
 const DefaultModal = ({
   children,
   setOpenModal,
-  openFeedBackSection,
-  feedBackMsg,
+  feedBack,
 }: defaultModalType) => {
   return (
     <TouchableNativeFeedback onPress={() => setOpenModal(false)}>
-      {openFeedBackSection ? (
+      {feedBack.status ? (
         <Container>
-          <Box>
-            <FeedBackMsgBox feedBackMsg={feedBackMsg} />
-          </Box>
+          <FeedBackBox>
+            <FeedBackMsgBox
+              feedBackMsg={feedBack.payload}
+              type={feedBack.type}
+            />
+          </FeedBackBox>
         </Container>
       ) : (
         <Container>
@@ -47,7 +52,10 @@ const Box = styled.View`
   height: auto;
   background-color: white;
   border-radius: 12px;
-  padding: 24px;
   justify-content: center;
   align-items: center;
+`;
+
+const FeedBackBox = styled(Box)`
+  padding: 24px;
 `;

@@ -32,8 +32,11 @@ const EditModal = ({ client, setOpenEditModal }: editModalType) => {
   return (
     <DefaultModal
       setOpenModal={setOpenEditModal}
-      feedBackMsg={"modificado !"}
-      openFeedBackSection={openFeedBackSection}
+      feedBack={{
+        status: openFeedBackSection,
+        type: "success",
+        payload: "Informações atualizadas com sucesso !",
+      }}
     >
       <Form>
         <FormBox>

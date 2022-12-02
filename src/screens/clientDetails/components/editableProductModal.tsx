@@ -28,6 +28,8 @@ const EditableProductModal = ({
   const [feedBackSection, setFeedBackSection] =
     useState<feedBackHandlingType>(successStatus);
 
+  console.log("produto", editableProduct);
+
   const handleEditedProduct = (
     e: NativeSyntheticEvent<TextInputChangeEventData>,
     name: string
@@ -57,47 +59,58 @@ const EditableProductModal = ({
   return (
     <DefaultModal
       setOpenModal={setOpenModal}
-      openFeedBackSection={feedBackSection.status}
-      feedBackMsg={feedBackSection.payload}
+      feedBack={{
+        status: feedBackSection.status,
+        type: "success",
+        payload: feedBackSection.payload,
+      }}
     >
-      <Form>
-        <FormBox>
-          <InputBox>
-            <Input
-              placeholder="Nome do produto"
-              value={editedProduct.product_name}
-              onChange={(e) => handleEditedProduct(e, "product_name")}
-            />
-          </InputBox>
-          <EditButton>
-            <Feather name="edit" size={24} color="#726a95" />
-          </EditButton>
-        </FormBox>
+      <Container>
+        <Form>
+          <FormBox>
+            <InputBox>
+              <Input
+                placeholder="Nome do produto"
+                value={editedProduct.product_name}
+                onChange={(e) => handleEditedProduct(e, "product_name")}
+              />
+            </InputBox>
+            <EditButton>
+              <Feather name="edit" size={24} color="#726a95" />
+            </EditButton>
+          </FormBox>
 
-        <FormBox>
-          <InputBox>
-            <Input
-              placeholder="Valor do produto"
-              value={editedProduct.product_value}
-              onChange={(e) => handleEditedProduct(e, "product_value")}
-            />
-          </InputBox>
-          <EditButton>
-            <Feather name="edit" size={24} color="#726a95" />
-          </EditButton>
-        </FormBox>
-      </Form>
-      <ConfirmButton onPress={updateEditedProduct}>
-        <P>Atualizar produto</P>
-      </ConfirmButton>
-      <DeleteButton onPress={deleteEditableProduct}>
-        <P>Deletar produto</P>
-      </DeleteButton>
+          <FormBox>
+            <InputBox>
+              <Input
+                placeholder="Valor do produto"
+                value={editedProduct.product_value}
+                onChange={(e) => handleEditedProduct(e, "product_value")}
+              />
+            </InputBox>
+            <EditButton>
+              <Feather name="edit" size={24} color="#726a95" />
+            </EditButton>
+          </FormBox>
+        </Form>
+        <ConfirmButton onPress={updateEditedProduct}>
+          <P>Atualizar produto</P>
+        </ConfirmButton>
+        <DeleteButton onPress={deleteEditableProduct}>
+          <P>Deletar produto</P>
+        </DeleteButton>
+      </Container>
     </DefaultModal>
   );
 };
 
 export default EditableProductModal;
+
+const Container = styled.View`
+  width: 100%;
+
+  padding: 24px;
+`;
 
 const Form = styled.View``;
 
@@ -109,6 +122,7 @@ const FormBox = styled.View`
 
 const InputBox = styled.View`
   width: 90%;
+  margin-right: 8px;
 `;
 
 const Input = styled.TextInput`
@@ -135,6 +149,7 @@ const ConfirmButton = styled.TouchableOpacity`
 `;
 
 const DeleteButton = styled(ConfirmButton)`
+  width: 100%;
   background-color: ${({ theme }) => theme.pallete.common.errorColor};
   margin-bottom: 0;
 `;

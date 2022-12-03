@@ -1,41 +1,60 @@
-import { useState } from "react";
-import { Modal } from "react-native";
+import { useState, useEffect } from "react";
+import { Modal, FlatList, ListRenderItemInfo } from "react-native";
 import styled from "styled-components/native";
 import DeleteModal from "./components/deleteModal";
 import EditModal from "./components/editModal";
 import { clientType } from "../../types";
+import { selectClientsController } from "../../services/db/controllers/clients";
 
 interface ClientType {
   client: clientType;
 }
 
 const ClientDescription = ({ client }: ClientType) => {
+  const [clientList, setClientList] = useState<clientType[]>([]);
+
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
+  useEffect(() => {
+    selectClientsController(setClientList);
+  }, [openEditModal]);
+
+  const rightClient = clientList.filter(
+    (item) => item.client_id === client.client_id
+  );
+
+  const renderClient = ({ item }: ListRenderItemInfo<clientType>) => {
+    return (
+      <>
+        <Box>
+          <P>Nome:</P>
+          <D>{item.client_name}</D>
+        </Box>
+        <Box>
+          <P>Telefone de contato:</P>
+          <D>{item.client_touch}</D>
+        </Box>
+        <Box>
+          <P>Rua: </P>
+          <D>{item.client_street}</D>
+        </Box>
+        <Box>
+          <P>Quadra: </P>
+          <D>{item.client_apartament}</D>
+        </Box>
+
+        <Box>
+          <P>Casa:</P>
+          <D>{item.client_block}</D>
+        </Box>
+      </>
+    );
+  };
+
   return (
     <Container>
-      <Box>
-        <P>Nome:</P>
-        <D>{client.client_name}</D>
-      </Box>
-      <Box>
-        <P>Telefone de contato:</P>
-        <D>{client.client_touch}</D>
-      </Box>
-      <Box>
-        <P>Rua: </P>
-        <D>{client.client_street}</D>
-      </Box>
-      <Box>
-        <P>Quadra: </P>
-        <D>{client.client_apartament}</D>
-      </Box>
-
-      <Box>
-        <P>Casa:</P>
-        <D>{client.client_block}</D>
-      </Box>
+      <FlatList data={rightClient} renderItem={renderClient} />
 
       <ButtonsBox>
         <OptionsButton onPress={() => setOpenEditModal(true)}>
@@ -47,7 +66,7 @@ const ClientDescription = ({ client }: ClientType) => {
           visible={openEditModal}
           onRequestClose={() => setOpenEditModal(false)}
         >
-          <EditModal setOpenEditModal={setOpenEditModal} client={client} />
+          <EditModal setOpenEditModal={setOpenEditModal} client={rightClient} />
         </Modal>
         <Modal
           animationType="fade"

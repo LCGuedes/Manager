@@ -3,6 +3,7 @@ import DefaultModal from "../../../components/defaultModal";
 import { useState } from "react";
 import { deleteClient } from "../../../services/db/controllers/clients";
 import { feedBackHandlingType } from "../../../types";
+import { useNavigation } from "@react-navigation/native";
 
 interface deleteModalType {
   openDeleteModal: (state: boolean) => void;
@@ -21,6 +22,8 @@ const DeleteModal = ({ openDeleteModal, clientName }: deleteModalType) => {
   const [openFeedBackSection, setopenFeedBackSection] =
     useState<boolean>(false);
 
+  const navigation = useNavigation();
+
   const handleDeleteClient = () => {
     if (inputClientName === "") {
       setHandleFeedBack({
@@ -37,6 +40,7 @@ const DeleteModal = ({ openDeleteModal, clientName }: deleteModalType) => {
     } else {
       deleteClient(inputClientName);
       setopenFeedBackSection(true);
+      navigation.navigate("Home");
     }
   };
 

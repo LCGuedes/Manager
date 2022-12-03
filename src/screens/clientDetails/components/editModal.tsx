@@ -7,12 +7,12 @@ import { updateClientController } from "../../../services/db/controllers/clients
 import { clientType } from "../../../types";
 
 interface editModalType {
-  client: clientType;
+  client: clientType[];
   setOpenEditModal: (state: boolean) => void;
 }
 
 const EditModal = ({ client, setOpenEditModal }: editModalType) => {
-  const [editClient, setEditClient] = useState<clientType>(client);
+  const [editClient, setEditClient] = useState<clientType>(client[0]);
   const [openFeedBackSection, setopenFeedBackSection] =
     useState<boolean>(false);
 

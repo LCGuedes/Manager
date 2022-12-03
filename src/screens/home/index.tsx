@@ -22,7 +22,7 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
 
   return (
     <>
-      <Header label="Olá Maria" />
+      <Header label="" />
       <Button onPress={openModal}>
         <Dot width={24} height={24} fill={"white"} />
       </Button>

@@ -90,17 +90,20 @@ const EditModal = ({ client, setOpenEditModal }: editModalType) => {
             <Feather name="edit" size={24} color="#726a95" />
           </EditButton>
         </FormBox>
+        <ConfirmButton onPress={updateClient}>
+          <P>Confirmar modificações</P>
+        </ConfirmButton>
       </Form>
-      <ConfirmButton onPress={updateClient}>
-        <P>Confirmar modificações</P>
-      </ConfirmButton>
     </DefaultModal>
   );
 };
 
 export default EditModal;
 
-const Form = styled.View``;
+const Form = styled.View`
+  width: 100%;
+  padding: 24px;
+`;
 
 const FormBox = styled.View`
   flex-direction: row;
